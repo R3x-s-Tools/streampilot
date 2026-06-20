@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+
 from dotenv import load_dotenv
 
 load_dotenv()
+
 
 def _int(name: str, default: int) -> int:
     try:
@@ -12,11 +14,15 @@ def _int(name: str, default: int) -> int:
     except ValueError:
         return default
 
+
 @dataclass
 class Settings:
     twitch_client_id: str = os.getenv("TWITCH_CLIENT_ID", "")
     twitch_client_secret: str = os.getenv("TWITCH_CLIENT_SECRET", "")
-    twitch_redirect_uri: str = os.getenv("TWITCH_REDIRECT_URI", "http://localhost:17563/callback")
+    twitch_redirect_uri: str = os.getenv(
+        "TWITCH_REDIRECT_URI",
+        "http://localhost:17563/callback",
+    )
     twitch_channel: str = os.getenv("TWITCH_CHANNEL", "dad_r3x")
 
     obs_host: str = os.getenv("OBS_HOST", "127.0.0.1")
