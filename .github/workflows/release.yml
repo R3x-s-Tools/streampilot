@@ -1,0 +1,156 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  source-zip:
+    name: Source ZIP
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build clean source ZIP
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          ZIP_NAME="DadR3x_Command_Center_${VERSION}_Source.zip"
+
+          mkdir -p release/DadR3x_Command_Center
+
+          rsync -av \
+            --exclude ".git" \
+            --exclude ".github" \
+            --exclude ".venv" \
+            --exclude "__pycache__" \
+            --exclude ".pytest_cache" \
+            --exclude ".ruff_cache" \
+            --exclude ".DS_Store" \
+            --exclude ".env" \
+            --exclude "data/twitch_tokens.json" \
+            --exclude "data/viewer_memory.json" \
+            --exclude "logs" \
+            --exclude "stream_logs" \
+            --exclude "stream_reports" \
+            --exclude "dist" \
+            --exclude "build" \
+            ./ release/DadR3x_Command_Center/
+
+          cd release
+          zip -r "${ZIP_NAME}" DadR3x_Command_Center
+          shasum -a 256 "${ZIP_NAME}" > "${ZIP_NAME}.sha256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-zip
+          path: |
+            release/*.zip
+            release/*.sha256
+
+  windows-app:
+    name: Windows App
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build Windows app
+        shell: pwsh
+        run: pyinstaller --noconfirm DadR3xCommandCenter.spec
+
+      - name: Zip Windows app
+        shell: pwsh
+        run: |
+          $version = "${env:GITHUB_REF_NAME}"
+          $zipName = "DadR3x_Command_Center_${version}_Windows.zip"
+          New-Item -ItemType Directory -Force release | Out-Null
+          Compress-Archive -Path "dist/DadR3x Command Center" -DestinationPath "release/$zipName" -Force
+          Get-FileHash "release/$zipName" -Algorithm SHA256 | ForEach-Object {
+            "$($_.Hash)  $zipName"
+          } | Out-File -Encoding ascii "release/$zipName.sha256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-app
+          path: |
+            release/*.zip
+            release/*.sha256
+
+  macos-app:
+    name: macOS App
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build macOS app
+        run: pyinstaller --noconfirm DadR3xCommandCenter.spec
+
+      - name: Zip macOS app
+        run: |
+          VERSION="${GITHUB_REF_NAME}"
+          ZIP_NAME="DadR3x_Command_Center_${VERSION}_macOS.zip"
+          mkdir -p release
+          cd dist
+          zip -r "../release/${ZIP_NAME}" "DadR3x Command Center.app"
+          cd ../release
+          shasum -a 256 "${ZIP_NAME}" > "${ZIP_NAME}.sha256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-app
+          path: |
+            release/*.zip
+            release/*.sha256
+
+  publish:
+    name: Publish Release
+    runs-on: ubuntu-latest
+    needs:
+      - source-zip
+      - windows-app
+      - macos-app
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Gather files
+        run: |
+          mkdir release-files
+          find artifacts -type f -name "*.zip" -exec cp {} release-files/ \;
+          find artifacts -type f -name "*.sha256" -exec cp {} release-files/ \;
+          ls -la release-files
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: release-files/*
