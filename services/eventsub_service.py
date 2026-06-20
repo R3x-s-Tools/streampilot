@@ -6,6 +6,7 @@ from typing import Callable, Optional
 import requests
 import websocket
 
+
 @dataclass
 class TwitchEvent:
     timestamp_epoch: float
@@ -13,6 +14,7 @@ class TwitchEvent:
     display_name: str
     message: str
     raw: dict
+
 
 class EventSubService:
     WS_URL = "wss://eventsub.wss.twitch.tv/ws"
@@ -56,16 +58,24 @@ class EventSubService:
         token = self.token_provider()
         if not token:
             raise RuntimeError("No Twitch access token. Login first.")
-        return {"Client-ID": self.client_id, "Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+        return {
+            "Client-ID": self.client_id,
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        }
 
     def _get(self, endpoint, params=None):
-        resp = requests.get(f"{self.HELIX}/{endpoint}", headers=self._headers(), params=params or {}, timeout=10)
+        resp = requests.get(
+            f"{self.HELIX}/{endpoint}", headers=self._headers(), params=params or {}, timeout=10
+        )
         if resp.status_code >= 400:
             raise RuntimeError(f"GET {endpoint} {resp.status_code}: {resp.text[:300]}")
         return resp.json()
 
     def _post(self, endpoint, payload):
-        resp = requests.post(f"{self.HELIX}/{endpoint}", headers=self._headers(), json=payload, timeout=10)
+        resp = requests.post(
+            f"{self.HELIX}/{endpoint}", headers=self._headers(), json=payload, timeout=10
+        )
         if resp.status_code >= 400:
             raise RuntimeError(f"POST {endpoint} {resp.status_code}: {resp.text[:500]}")
         return resp.json()
@@ -86,7 +96,12 @@ class EventSubService:
                 self.status = "Looking up IDs..."
                 self._lookup_ids()
                 self.status = "Connecting..."
-                self.ws = websocket.WebSocketApp(self.WS_URL, on_message=self._on_message, on_error=self._on_error, on_close=self._on_close)
+                self.ws = websocket.WebSocketApp(
+                    self.WS_URL,
+                    on_message=self._on_message,
+                    on_error=self._on_error,
+                    on_close=self._on_close,
+                )
                 self.ws.run_forever(ping_interval=30, ping_timeout=10)
             except Exception as exc:
                 self.last_error = str(exc)
@@ -120,18 +135,34 @@ class EventSubService:
 
     def _subscribe_all(self):
         subs = [
-            ("channel.follow", "2", {"broadcaster_user_id": self.broadcaster_id, "moderator_user_id": self.user_id}),
+            (
+                "channel.follow",
+                "2",
+                {"broadcaster_user_id": self.broadcaster_id, "moderator_user_id": self.user_id},
+            ),
             ("channel.subscribe", "1", {"broadcaster_user_id": self.broadcaster_id}),
             ("channel.subscription.message", "1", {"broadcaster_user_id": self.broadcaster_id}),
             ("channel.subscription.gift", "1", {"broadcaster_user_id": self.broadcaster_id}),
             ("channel.cheer", "1", {"broadcaster_user_id": self.broadcaster_id}),
             ("channel.raid", "1", {"to_broadcaster_user_id": self.broadcaster_id}),
-            ("channel.channel_points_custom_reward_redemption.add", "1", {"broadcaster_user_id": self.broadcaster_id}),
+            (
+                "channel.channel_points_custom_reward_redemption.add",
+                "1",
+                {"broadcaster_user_id": self.broadcaster_id},
+            ),
         ]
         self.subscribed = []
         for typ, ver, cond in subs:
             try:
-                self._post("eventsub/subscriptions", {"type": typ, "version": ver, "condition": cond, "transport": {"method": "websocket", "session_id": self.session_id}})
+                self._post(
+                    "eventsub/subscriptions",
+                    {
+                        "type": typ,
+                        "version": ver,
+                        "condition": cond,
+                        "transport": {"method": "websocket", "session_id": self.session_id},
+                    },
+                )
                 self.subscribed.append(typ)
             except Exception as exc:
                 print(f"[EventSub subscribe skipped] {typ}: {exc}")

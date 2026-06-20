@@ -56,7 +56,9 @@ class StreamLogger:
         seconds = int((when or time.time()) - self.started_at)
         return f"{seconds // 3600:02d}:{(seconds % 3600) // 60:02d}:{seconds % 60:02d}"
 
-    def add_event(self, event_type: str, score: int, reason: str, details: dict | None = None) -> StreamEvent:
+    def add_event(
+        self, event_type: str, score: int, reason: str, details: dict | None = None
+    ) -> StreamEvent:
         event = StreamEvent(
             timestamp_epoch=time.time(),
             stream_time=self.stream_time(),
@@ -262,9 +264,9 @@ class StreamLogger:
             ],
             "contextual_moments": contextual_moments[:20],
             "viewer_summary": {
-                "average_viewers": round(sum(viewer_counts) / len(viewer_counts), 2)
-                if viewer_counts
-                else 0,
+                "average_viewers": (
+                    round(sum(viewer_counts) / len(viewer_counts), 2) if viewer_counts else 0
+                ),
                 "peak_viewers": max(viewer_counts) if viewer_counts else 0,
                 "low_viewers": min(viewer_counts) if viewer_counts else 0,
                 "samples": len(viewer_counts),

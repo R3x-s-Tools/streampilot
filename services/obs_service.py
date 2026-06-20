@@ -67,7 +67,9 @@ class ObsService:
 
         if self.client is None and now < self.next_retry_epoch:
             remaining = int(self.next_retry_epoch - now)
-            snap.error = f"OBS disconnected. Retrying in {remaining}s. Last error: {self.last_error}"
+            snap.error = (
+                f"OBS disconnected. Retrying in {remaining}s. Last error: {self.last_error}"
+            )
             return snap
 
         try:

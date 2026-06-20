@@ -127,11 +127,12 @@ class MainWindow(QMainWindow):
         console_panel = QGroupBox("🎛 Producer Console")
         console_layout = QVBoxLayout(console_panel)
 
-        self.live_status_box = QLabel("Not live yet. Start Twitch services to populate stream status.")
+        self.live_status_box = QLabel(
+            "Not live yet. Start Twitch services to populate stream status."
+        )
         self.live_status_box.setWordWrap(True)
         self.live_status_box.setAlignment(Qt.AlignTop)
-        self.live_status_box.setStyleSheet(
-            """
+        self.live_status_box.setStyleSheet("""
             QLabel {
                 font-size: 16px;
                 padding: 12px;
@@ -139,8 +140,7 @@ class MainWindow(QMainWindow):
                 border-radius: 8px;
                 background-color: #111;
             }
-            """
-        )
+            """)
         console_layout.addWidget(QLabel("Live Status"))
         console_layout.addWidget(self.live_status_box)
 
@@ -156,7 +156,9 @@ class MainWindow(QMainWindow):
         console_layout.addWidget(QLabel("High-signal moments"))
         self.moments_box = QTextEdit()
         self.moments_box.setReadOnly(True)
-        self.moments_box.setPlaceholderText("Follows, spikes, chat bursts, and clip markers will appear here.")
+        self.moments_box.setPlaceholderText(
+            "Follows, spikes, chat bursts, and clip markers will appear here."
+        )
         console_layout.addWidget(self.moments_box, stretch=2)
 
         console_layout.addWidget(QLabel("AI timeline"))
@@ -184,8 +186,7 @@ class MainWindow(QMainWindow):
     def _status_card(self, title: str, value: str) -> dict:
         box = QFrame()
         box.setFrameShape(QFrame.StyledPanel)
-        box.setStyleSheet(
-            """
+        box.setStyleSheet("""
             QFrame {
                 border: 1px solid #444;
                 border-radius: 8px;
@@ -194,8 +195,7 @@ class MainWindow(QMainWindow):
             QLabel {
                 border: none;
             }
-            """
-        )
+            """)
         layout = QVBoxLayout(box)
         title_label = QLabel(title)
         title_label.setStyleSheet("font-weight: bold; font-size: 13px;")
@@ -361,9 +361,13 @@ class MainWindow(QMainWindow):
             if previous_viewers is not None:
                 delta = self.latest_twitch.viewer_count - previous_viewers
                 if delta >= 2:
-                    self._append_moment(f"📈 Viewer spike: +{delta}, now {self.latest_twitch.viewer_count}")
+                    self._append_moment(
+                        f"📈 Viewer spike: +{delta}, now {self.latest_twitch.viewer_count}"
+                    )
                 elif delta <= -2:
-                    self._append_moment(f"📉 Viewer drop: {delta}, now {self.latest_twitch.viewer_count}")
+                    self._append_moment(
+                        f"📉 Viewer drop: {delta}, now {self.latest_twitch.viewer_count}"
+                    )
         else:
             self.twitch_card["value"].setText(f"API Error\n{self.latest_twitch.error}")
 

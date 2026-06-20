@@ -18,10 +18,7 @@ class ConversationSignal:
 
 class ConversationEngine:
     def analyze_recent_chat(self, chat_history: list[dict], now_epoch: float) -> list[dict]:
-        human_chat = [
-            msg for msg in chat_history
-            if not is_bot(str(msg.get("username", "")))
-        ]
+        human_chat = [msg for msg in chat_history if not is_bot(str(msg.get("username", "")))]
 
         by_user_10m: dict[str, list[dict]] = defaultdict(list)
         by_user_30m: dict[str, list[dict]] = defaultdict(list)
@@ -45,14 +42,16 @@ class ConversationEngine:
             if not is_high:
                 continue
 
-            signals.append(ConversationSignal(
-                username=username,
-                messages_10m=len(messages_10),
-                messages_30m=len(messages_30),
-                question_count=question_count,
-                is_high_engagement=is_high,
-                suggested_prompt=self._suggest_prompt(username, messages_30),
-            ))
+            signals.append(
+                ConversationSignal(
+                    username=username,
+                    messages_10m=len(messages_10),
+                    messages_30m=len(messages_30),
+                    question_count=question_count,
+                    is_high_engagement=is_high,
+                    suggested_prompt=self._suggest_prompt(username, messages_30),
+                )
+            )
 
         signals.sort(key=lambda s: (s.messages_10m, s.messages_30m, s.question_count), reverse=True)
         return [asdict(signal) for signal in signals]

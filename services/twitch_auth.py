@@ -22,6 +22,7 @@ SCOPES = [
     "channel:read:redemptions",
 ]
 
+
 @dataclass
 class TokenStore:
     access_token: str
@@ -30,12 +31,19 @@ class TokenStore:
     scope: list[str]
     token_type: str = "bearer"
 
+
 class TwitchAuthService:
     TOKEN_URL = "https://id.twitch.tv/oauth2/token"
     AUTHORIZE_URL = "https://id.twitch.tv/oauth2/authorize"
     VALIDATE_URL = "https://id.twitch.tv/oauth2/validate"
 
-    def __init__(self, client_id: str, client_secret: str, redirect_uri: str, token_path: str = "data/twitch_tokens.json"):
+    def __init__(
+        self,
+        client_id: str,
+        client_secret: str,
+        redirect_uri: str,
+        token_path: str = "data/twitch_tokens.json",
+    ):
         self.client_id = client_id.strip()
         self.client_secret = client_secret.strip()
         self.redirect_uri = redirect_uri.strip()
@@ -138,33 +146,44 @@ class TwitchAuthService:
                 incoming = urllib.parse.urlparse(self.path)
                 params = urllib.parse.parse_qs(incoming.query)
                 if incoming.path != callback_path:
-                    self.send_response(404); self.end_headers(); return
+                    self.send_response(404)
+                    self.end_headers()
+                    return
                 if params.get("state", [""])[0] != state:
                     result["error"] = "State mismatch"
-                    self.send_response(400); self.end_headers()
+                    self.send_response(400)
+                    self.end_headers()
                     self.wfile.write(b"State mismatch. You can close this tab.")
                     return
                 if "error" in params:
-                    result["error"] = params.get("error_description", params.get("error", ["Unknown error"]))[0]
-                    self.send_response(400); self.end_headers()
+                    result["error"] = params.get(
+                        "error_description", params.get("error", ["Unknown error"])
+                    )[0]
+                    self.send_response(400)
+                    self.end_headers()
                     self.wfile.write(b"Twitch authorization failed. You can close this tab.")
                     return
                 result["code"] = params.get("code", [None])[0]
-                self.send_response(200); self.end_headers()
+                self.send_response(200)
+                self.end_headers()
                 self.wfile.write(b"Dad_R3x Command Center is authorized. You can close this tab.")
-            def log_message(self, fmt, *args): return
+
+            def log_message(self, fmt, *args):
+                return
 
         server = HTTPServer((host, port), Handler)
         thread = threading.Thread(target=server.handle_request, daemon=True)
         thread.start()
 
-        query = urllib.parse.urlencode({
-            "client_id": self.client_id,
-            "redirect_uri": self.redirect_uri,
-            "response_type": "code",
-            "scope": " ".join(SCOPES),
-            "state": state,
-        })
+        query = urllib.parse.urlencode(
+            {
+                "client_id": self.client_id,
+                "redirect_uri": self.redirect_uri,
+                "response_type": "code",
+                "scope": " ".join(SCOPES),
+                "state": state,
+            }
+        )
         webbrowser.open(f"{self.AUTHORIZE_URL}?{query}")
         self.status = "Waiting for Twitch login..."
 
@@ -225,7 +244,11 @@ class TwitchAuthService:
         if not token:
             return None
         try:
-            response = requests.get(self.VALIDATE_URL, headers={"Authorization": f"OAuth {token.access_token}"}, timeout=10)
+            response = requests.get(
+                self.VALIDATE_URL,
+                headers={"Authorization": f"OAuth {token.access_token}"},
+                timeout=10,
+            )
             if response.status_code >= 400:
                 self.last_error = f"Validate failed {response.status_code}: {response.text[:300]}"
                 return None

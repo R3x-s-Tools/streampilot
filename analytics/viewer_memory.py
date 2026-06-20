@@ -25,7 +25,12 @@ class ViewerProfile:
 
     @property
     def engagement_score(self) -> int:
-        return int(min(100, self.total_messages * 2 + self.streams_seen * 12 + self.total_twitch_events * 15))
+        return int(
+            min(
+                100,
+                self.total_messages * 2 + self.streams_seen * 12 + self.total_twitch_events * 15,
+            )
+        )
 
 
 class ViewerMemory:
@@ -51,13 +56,14 @@ class ViewerMemory:
     def save(self) -> None:
         payload = {
             "profiles": {
-                username: asdict(profile)
-                for username, profile in sorted(self.profiles.items())
+                username: asdict(profile) for username, profile in sorted(self.profiles.items())
             }
         }
         self.path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    def observe_chat(self, username: str, message: str, timestamp_epoch: float | None = None) -> dict:
+    def observe_chat(
+        self, username: str, message: str, timestamp_epoch: float | None = None
+    ) -> dict:
         username_key = (username or "").strip().lower()
         if not username_key or is_bot(username_key):
             return {"ignored": True, "reason": "bot_or_empty"}
@@ -67,7 +73,9 @@ class ViewerMemory:
         profile = self.profiles.get(username_key)
 
         if not profile:
-            profile = ViewerProfile(username=username_key, first_seen_epoch=now, last_seen_epoch=now)
+            profile = ViewerProfile(
+                username=username_key, first_seen_epoch=now, last_seen_epoch=now
+            )
             self.profiles[username_key] = profile
 
         first_message_this_session = username_key not in self._seen_this_session
@@ -92,7 +100,9 @@ class ViewerMemory:
             "topics": profile.topics[-8:],
         }
 
-    def observe_twitch_event(self, username: str, event_type: str, timestamp_epoch: float | None = None) -> dict:
+    def observe_twitch_event(
+        self, username: str, event_type: str, timestamp_epoch: float | None = None
+    ) -> dict:
         username_key = (username or "").strip().lower()
         if not username_key or username_key == "unknown" or is_bot(username_key):
             return {"ignored": True, "reason": "bot_or_empty"}
@@ -102,7 +112,9 @@ class ViewerMemory:
         is_new_viewer = profile is None
 
         if not profile:
-            profile = ViewerProfile(username=username_key, first_seen_epoch=now, last_seen_epoch=now)
+            profile = ViewerProfile(
+                username=username_key, first_seen_epoch=now, last_seen_epoch=now
+            )
             self.profiles[username_key] = profile
 
         if username_key not in self._seen_this_session:
@@ -133,7 +145,8 @@ class ViewerMemory:
             reverse=True,
         )
         return [
-            asdict(profile) | {
+            asdict(profile)
+            | {
                 "engagement_score": profile.engagement_score,
                 "is_regular": profile.is_regular,
             }

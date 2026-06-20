@@ -112,7 +112,9 @@ class ObsPreviewService:
         except Exception as exc:
             errors.append(str(exc))
 
-        raise RuntimeError("Could not call OBS GetSourceScreenshot. Attempts: " + " | ".join(errors[-4:]))
+        raise RuntimeError(
+            "Could not call OBS GetSourceScreenshot. Attempts: " + " | ".join(errors[-4:])
+        )
 
     def _get_source_screenshot_raw(self, source_name: str, width: int, height: int):
         client = self.obs_service.client

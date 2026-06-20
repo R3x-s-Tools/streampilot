@@ -28,7 +28,9 @@ class AiProducerV2:
         recent_highlights = recent_highlights or []
         chat_history = chat_history or []
 
-        conversation_signals = self.conversation_engine.analyze_recent_chat(chat_history, time.time())
+        conversation_signals = self.conversation_engine.analyze_recent_chat(
+            chat_history, time.time()
+        )
         top_viewers = viewer_memory.top_viewers(5) if viewer_memory else []
 
         if self.provider == "openai" and self.api_key:
@@ -67,7 +69,9 @@ class AiProducerV2:
             render_lag = getattr(obs, "render_lag_percent", None) or 0
             encoding_lag = getattr(obs, "encoding_lag_percent", None) or 0
             if render_lag >= 3 or encoding_lag >= 3:
-                notes.append(f"Technical warning: render lag {render_lag}%, encoding lag {encoding_lag}%. Reduce load before adding features.")
+                notes.append(
+                    f"Technical warning: render lag {render_lag}%, encoding lag {encoding_lag}%. Reduce load before adding features."
+                )
             else:
                 notes.append("OBS is healthy. Focus on keeping the current conversation alive.")
 
@@ -79,14 +83,20 @@ class AiProducerV2:
                 f"{signal['suggested_prompt']}"
             )
         else:
-            notes.append("No high-engagement conversation detected. Ask: “What kit should I run next round?”")
+            notes.append(
+                "No high-engagement conversation detected. Ask: “What kit should I run next round?”"
+            )
 
         if top_viewers:
             regulars = [v for v in top_viewers if v.get("is_regular")]
             if regulars:
-                notes.append(f"Regular viewer active/history: {regulars[0]['username']} has {regulars[0]['total_messages']} lifetime messages.")
+                notes.append(
+                    f"Regular viewer active/history: {regulars[0]['username']} has {regulars[0]['total_messages']} lifetime messages."
+                )
             else:
-                notes.append(f"Top viewer so far: {top_viewers[0]['username']} with engagement score {top_viewers[0]['engagement_score']}.")
+                notes.append(
+                    f"Top viewer so far: {top_viewers[0]['username']} with engagement score {top_viewers[0]['engagement_score']}."
+                )
 
         if twitch_snapshot and getattr(twitch_snapshot, "live", False):
             notes.append(
@@ -96,10 +106,14 @@ class AiProducerV2:
 
         if recent_events:
             latest_event = recent_events[-1]
-            notes.append(f"Recent Twitch event: {latest_event.get('message', latest_event.get('event_type', 'event'))}")
+            notes.append(
+                f"Recent Twitch event: {latest_event.get('message', latest_event.get('event_type', 'event'))}"
+            )
 
         if recent_highlights:
-            notes.append("A highlight/viewer event was recently detected. Mark context manually if it was gameplay-related.")
+            notes.append(
+                "A highlight/viewer event was recently detected. Mark context manually if it was gameplay-related."
+            )
 
         return "\n".join(f"🦖 {note}" for note in notes[:5])
 
@@ -171,8 +185,25 @@ Recent highlights:
             response = client.responses.create(model=self.model, input=prompt)
             text = response.output_text.strip()
             self.last_error = ""
-            return text or self._rules_only(obs, twitch_snapshot, recent_events, recent_highlights, conversation_signals, top_viewers)
+            return text or self._rules_only(
+                obs,
+                twitch_snapshot,
+                recent_events,
+                recent_highlights,
+                conversation_signals,
+                top_viewers,
+            )
 
         except Exception as exc:
             self.last_error = str(exc)
-            return self._rules_only(obs, twitch_snapshot, recent_events, recent_highlights, conversation_signals, top_viewers) + f"\n🦖 AI Producer error: {exc}"
+            return (
+                self._rules_only(
+                    obs,
+                    twitch_snapshot,
+                    recent_events,
+                    recent_highlights,
+                    conversation_signals,
+                    top_viewers,
+                )
+                + f"\n🦖 AI Producer error: {exc}"
+            )

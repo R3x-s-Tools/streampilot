@@ -38,12 +38,8 @@ class AnalyticsEngine:
             details = event_dict.get("details", {}) or {}
 
             nearby_chat = self._nearby(chat_history, event_ts)
-            human_chat = [
-                item for item in nearby_chat if not is_bot(str(item.get("username", "")))
-            ]
-            bot_chat = [
-                item for item in nearby_chat if is_bot(str(item.get("username", "")))
-            ]
+            human_chat = [item for item in nearby_chat if not is_bot(str(item.get("username", "")))]
+            bot_chat = [item for item in nearby_chat if is_bot(str(item.get("username", "")))]
             nearby_events = self._nearby(twitch_events, event_ts)
 
             moments.append(
@@ -85,10 +81,7 @@ class AnalyticsEngine:
         technical_score = 100
 
         overall = int(
-            viewer_score * 0.30
-            + chat_score * 0.25
-            + clip_score * 0.25
-            + technical_score * 0.20
+            viewer_score * 0.30 + chat_score * 0.25 + clip_score * 0.25 + technical_score * 0.20
         )
 
         return {
@@ -148,7 +141,9 @@ class AnalyticsEngine:
             return "Likely human chat activity spike."
 
         if event_type == "viewer_spike":
-            return "Viewer spike detected, but nearby context was limited. Review this VOD timestamp."
+            return (
+                "Viewer spike detected, but nearby context was limited. Review this VOD timestamp."
+            )
 
         if event_type == "viewer_drop":
             return "Viewer drop detected. Check for downtime, menus, silence, round transition, or stream ending."

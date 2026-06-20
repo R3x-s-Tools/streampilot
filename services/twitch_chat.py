@@ -7,11 +7,13 @@ from dataclasses import dataclass, field
 from queue import Queue
 from typing import Callable, Optional
 
+
 @dataclass
 class ChatMessage:
     username: str
     message: str
     timestamp: float = field(default_factory=time.time)
+
 
 class TwitchChatService:
     def __init__(self, nick: str, channel: str, oauth_provider: Callable[[], Optional[str]]):

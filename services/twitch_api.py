@@ -5,6 +5,7 @@ from dataclasses import dataclass, asdict
 from typing import Callable, Optional
 import requests
 
+
 @dataclass
 class TwitchSnapshot:
     timestamp_epoch: float
@@ -21,8 +22,11 @@ class TwitchSnapshot:
     subscriber_total: int | None = None
     error: str = ""
 
+
 class TwitchApiService:
-    def __init__(self, client_id: str, channel: str, access_token_provider: Callable[[], Optional[str]]):
+    def __init__(
+        self, client_id: str, channel: str, access_token_provider: Callable[[], Optional[str]]
+    ):
         self.client_id = client_id
         self.channel = channel.lower().strip().lstrip("#")
         self.access_token_provider = access_token_provider
@@ -37,9 +41,16 @@ class TwitchApiService:
         return {"Client-ID": self.client_id, "Authorization": f"Bearer {token}"}
 
     def _get(self, endpoint: str, params: dict | None = None):
-        resp = requests.get(f"https://api.twitch.tv/helix/{endpoint}", headers=self._headers(), params=params or {}, timeout=10)
+        resp = requests.get(
+            f"https://api.twitch.tv/helix/{endpoint}",
+            headers=self._headers(),
+            params=params or {},
+            timeout=10,
+        )
         if resp.status_code >= 400:
-            raise RuntimeError(f"Twitch API {endpoint} failed {resp.status_code}: {resp.text[:300]}")
+            raise RuntimeError(
+                f"Twitch API {endpoint} failed {resp.status_code}: {resp.text[:300]}"
+            )
         return resp.json()
 
     def _ensure_broadcaster_id(self):
@@ -68,12 +79,16 @@ class TwitchApiService:
                 snap.started_at = s.get("started_at", "")
 
             try:
-                snap.follower_total = self._get("channels/followers", {"broadcaster_id": bid, "first": 1}).get("total")
+                snap.follower_total = self._get(
+                    "channels/followers", {"broadcaster_id": bid, "first": 1}
+                ).get("total")
             except Exception as exc:
                 snap.error = f"Follower total unavailable: {exc}"
 
             try:
-                snap.subscriber_total = self._get("subscriptions", {"broadcaster_id": bid, "first": 1}).get("total")
+                snap.subscriber_total = self._get(
+                    "subscriptions", {"broadcaster_id": bid, "first": 1}
+                ).get("total")
             except Exception:
                 pass
 
