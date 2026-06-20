@@ -1,0 +1,663 @@
+2026-06-20 12:51:33,036 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 12:52:06,732 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 12:52:10,921 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:15,924 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:15,934 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:16,245 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:21,248 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:21,253 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:21,549 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:26,551 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:26,557 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:26,883 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:31,886 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:31,890 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:32,184 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:37,186 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:37,191 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:37,483 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:42,485 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:42,486 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:42,769 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:47,771 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:47,776 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:48,069 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:53,071 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:53,075 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:53,373 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:52:58,374 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:52:58,376 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:52:58,671 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:03,674 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:03,678 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:03,987 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:08,989 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:08,994 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:09,289 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:14,292 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:14,296 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:14,597 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:19,598 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:19,600 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:19,848 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:24,850 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:24,855 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:25,155 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:30,157 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:30,159 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:30,400 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:35,402 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:35,405 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:35,695 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:40,696 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:40,699 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:41,003 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:46,004 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:46,007 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:46,290 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:51,293 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:51,294 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:51,580 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:53:56,582 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:53:56,583 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:53:56,869 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:54:01,871 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:54:01,874 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:54:02,153 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:54:07,155 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:54:07,157 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:54:07,437 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:54:12,439 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:54:12,442 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:54:12,735 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=5
+2026-06-20 12:54:17,736 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:54:17,738 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:58:43,901 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 12:58:47,468 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 12:58:48,471 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 12:58:48,481 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:58:50,358 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:58:53,401 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:58:56,403 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 12:58:59,407 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:30,460 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 14:40:34,226 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:40:35,229 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:40:35,237 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:37,153 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:40,149 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:43,097 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:46,148 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:49,098 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:52,151 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:40:53,153 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:40:53,157 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:55,201 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:40:58,154 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:01,152 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:04,136 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:07,146 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:10,151 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:41:11,153 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:41:11,155 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:13,151 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:16,162 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:19,140 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:22,155 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:25,086 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:28,107 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:41:29,109 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:41:29,111 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:31,152 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:34,086 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:37,137 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:40,133 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:43,130 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:46,131 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:41:47,134 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:41:47,138 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:49,127 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:52,135 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:55,089 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:41:58,129 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:42:01,189 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:42:04,389 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:42:05,390 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:42:05,392 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:42:09,640 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:42:10,500 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:08,279 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 14:48:11,831 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:48:12,833 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:48:12,843 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:14,651 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:17,657 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:20,652 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:23,663 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:26,641 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:29,653 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 14:48:30,656 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 14:48:30,658 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:32,600 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:35,660 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:38,597 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:41,660 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 14:48:44,673 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:07,977 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 15:21:11,659 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 15:21:12,662 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 15:21:12,665 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:14,630 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:17,626 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:20,632 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:23,618 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:26,633 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:29,578 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 15:21:30,579 | ERROR | obsws_python.baseclient.ObsClient | TimeoutError: timed out
+Traceback (most recent call last):
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/obsws_python/baseclient.py", line 41, in __init__
+    self.ws.connect(f"ws://{self.host}:{self.port}", timeout=self.timeout)
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_core.py", line 263, in connect
+    self.sock, addrs = connect(
+                       ^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 146, in connect
+    sock = _open_socket(addrinfo_list, options.sockopt, options.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 223, in _open_socket
+    raise error
+  File "/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/websocket/_http.py", line 210, in _open_socket
+    sock.connect(address)
+TimeoutError: timed out
+2026-06-20 15:21:30,581 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:32,630 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:35,617 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:38,631 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:41,618 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:44,614 | WARNING | analytics.stream_logger | obs_disconnected
+2026-06-20 15:21:45,870 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 15:21:45,893 | INFO | obsws_python.reqs.ReqClient | Successfully identified ReqClient with the server using RPC version:1
+2026-06-20 15:34:53,876 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 15:34:57,676 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 15:34:57,695 | INFO | obsws_python.reqs.ReqClient | Successfully identified ReqClient with the server using RPC version:1
+2026-06-20 15:55:38,465 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 15:55:42,189 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 15:55:42,217 | INFO | obsws_python.reqs.ReqClient | Successfully identified ReqClient with the server using RPC version:1
+2026-06-20 16:01:07,317 | INFO | analytics.stream_logger | stream_logger_started
+2026-06-20 16:01:10,749 | INFO | obsws_python.baseclient.ObsClient | Connecting with parameters: host='192.168.1.71' port=4455 password='7PN42BPHHi6zgssh' subs=0 timeout=1
+2026-06-20 16:01:10,771 | INFO | obsws_python.reqs.ReqClient | Successfully identified ReqClient with the server using RPC version:1
