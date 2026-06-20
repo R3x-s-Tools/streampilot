@@ -1,9 +1,10 @@
-from services.twitch_api import TwitchApiService
+from services.twitch_api import TwitchApiService, TwitchSnapshot
 
 
 def test_twitch_snapshot_to_dict():
     service = TwitchApiService("client", "dad_r3x", lambda: "token")
-    snap = service.snapshot.__annotations__["return"](
+
+    snap = TwitchSnapshot(
         timestamp_epoch=123,
         stream_time="00:00:01",
         connected=True,

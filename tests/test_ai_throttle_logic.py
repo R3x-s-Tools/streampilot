@@ -1,23 +1,23 @@
-import pytest
+from analytics.ai_throttle import AiTimelineThrottle
 
 
-def test_should_post_ai_timeline_rules_without_qtbot(monkeypatch):
-    pytest.importorskip("PySide6")
+def test_ai_timeline_throttle_rules():
+    throttle = AiTimelineThrottle(force_repeat_seconds=600)
+    throttle.last_notes_text = "same"
+    throttle.last_post_epoch = 1000
 
-    from ui.main_window import MainWindow
+    assert throttle.should_post("", auto=True, now_epoch=1100) is False
+    assert throttle.should_post("different", auto=True, now_epoch=1100) is True
+    assert throttle.should_post("same", auto=True, now_epoch=1100) is False
+    assert throttle.should_post("same", auto=False, now_epoch=1100) is True
+    assert throttle.should_post("same", auto=True, now_epoch=1701) is True
 
-    window = object.__new__(MainWindow)
-    window.last_ai_notes_text = "same"
-    window.last_ai_timeline_post = 1000
-    window.ai_force_repeat_seconds = 600
 
-    monkeypatch.setattr("ui.main_window.time.time", lambda: 1100)
+def test_ai_timeline_throttle_mark_posted():
+    throttle = AiTimelineThrottle(force_repeat_seconds=600)
 
-    assert window._should_post_ai_timeline("", auto=True) is False
-    assert window._should_post_ai_timeline("different", auto=True) is True
-    assert window._should_post_ai_timeline("same", auto=True) is False
-    assert window._should_post_ai_timeline("same", auto=False) is True
+    throttle.mark_posted("hello", now_epoch=1000)
 
-    monkeypatch.setattr("ui.main_window.time.time", lambda: 1701)
-
-    assert window._should_post_ai_timeline("same", auto=True) is True is True
+    assert throttle.last_notes_text == "hello"
+    assert throttle.last_post_epoch == 1000
+    assert throttle.should_post("hello", auto=True, now_epoch=1200) is False
