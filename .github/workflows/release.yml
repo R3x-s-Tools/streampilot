@@ -9,116 +9,195 @@ permissions:
   contents: write
 
 jobs:
-  source-zip:
+  source:
     name: Source ZIP
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Resolve version
+        id: version
+        shell: bash
+        run: |
+          echo "version=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Build source ZIP
+        shell: bash
         run: |
           python build/scripts/build_source_zip.py --version "${GITHUB_REF_NAME}"
           cd release
           sha256sum "DadR3x_Command_Center_${GITHUB_REF_NAME}_Source.zip" > "DadR3x_Command_Center_${GITHUB_REF_NAME}_Source.zip.sha256"
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload source artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: source-zip
+          name: source-${{ steps.version.outputs.version }}
           path: |
             release/*.zip
             release/*.sha256
 
-  windows-app:
-    name: Windows App
+  windows:
+    name: Windows
     runs-on: windows-latest
+    needs: source
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Build Windows app
+      - name: Build Windows package
         shell: pwsh
-        run: build/scripts/build_windows.ps1 -Version "${env:GITHUB_REF_NAME}"
+        run: |
+          build/scripts/build_windows.ps1 -Version "${env:GITHUB_REF_NAME}"
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: windows-app
+          name: windows-${{ needs.source.outputs.version }}
           path: |
             release/*.zip
             release/*.sha256
 
-  macos-arm64-app:
-    name: macOS App Apple Silicon
-    runs-on: macos-14
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Build macOS Apple Silicon app
-        run: bash build/scripts/build_mac.sh "${GITHUB_REF_NAME}_AppleSilicon"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: macos-arm64-app
-          path: |
-            release/*.zip
-            release/*.sha256
-
-  macos-intel-app:
-    name: macOS App Intel
+  macos-intel:
+    name: macOS Intel x86_64
     runs-on: macos-13
+    needs: source
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Build macOS Intel app
-        run: bash build/scripts/build_mac.sh "${GITHUB_REF_NAME}_Intel"
+      - name: Build macOS Intel package
+        shell: bash
+        run: |
+          bash build/scripts/build_mac.sh "${GITHUB_REF_NAME}" "Intel" "x86_64"
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload macOS Intel artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: macos-intel-app
+          name: macos-intel-${{ needs.source.outputs.version }}
           path: |
             release/*.zip
             release/*.sha256
 
-  publish:
-    name: Publish Release
+  macos-apple-silicon:
+    name: macOS Apple Silicon arm64
+    runs-on: macos-14
+    needs: source
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build macOS Apple Silicon package
+        shell: bash
+        run: |
+          bash build/scripts/build_mac.sh "${GITHUB_REF_NAME}" "AppleSilicon" "arm64"
+
+      - name: Upload macOS Apple Silicon artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-apple-silicon-${{ needs.source.outputs.version }}
+          path: |
+            release/*.zip
+            release/*.sha256
+
+  verify:
+    name: Verify release artifacts
     runs-on: ubuntu-latest
     needs:
-      - source-zip
-      - windows-app
-      - macos-arm64-app
-      - macos-intel-app
+      - source
+      - windows
+      - macos-intel
+      - macos-apple-silicon
 
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
 
-      - name: Gather release files
+      - name: Verify expected files
+        shell: bash
         run: |
-          mkdir release-files
+          set -euo pipefail
+
+          VERSION="${{ needs.source.outputs.version }}"
+
+          mkdir -p release-files
           find artifacts -type f -name "*.zip" -exec cp {} release-files/ \;
           find artifacts -type f -name "*.sha256" -exec cp {} release-files/ \;
+
+          echo "Release files:"
           ls -la release-files
 
-      - name: Create GitHub Release
+          expected=(
+            "DadR3x_Command_Center_${VERSION}_Source.zip"
+            "DadR3x_Command_Center_${VERSION}_Windows.zip"
+            "DadR3x_Command_Center_${VERSION}_macOS_Intel_x86_64.zip"
+            "DadR3x_Command_Center_${VERSION}_macOS_AppleSilicon_arm64.zip"
+          )
+
+          for file in "${expected[@]}"; do
+            if [[ ! -f "release-files/${file}" ]]; then
+              echo "Missing expected artifact: ${file}"
+              exit 1
+            fi
+
+            if [[ ! -f "release-files/${file}.sha256" ]]; then
+              echo "Missing expected checksum: ${file}.sha256"
+              exit 1
+            fi
+          done
+
+          cd release-files
+          sha256sum -c *.sha256
+
+      - name: Upload verified release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-release-${{ needs.source.outputs.version }}
+          path: release-files/*
+
+  publish:
+    name: Publish GitHub Release
+    runs-on: ubuntu-latest
+    needs:
+      - source
+      - verify
+
+    steps:
+      - name: Download verified release bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: verified-release-${{ needs.source.outputs.version }}
+          path: release-files
+
+      - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
