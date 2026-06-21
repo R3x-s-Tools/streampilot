@@ -7,6 +7,16 @@ __pycache__/
 stream_logs/
 stream_reports/
 dist/
-build/
+# PyInstaller build output
+.pyinstaller_build/
+
+# Distribution artifacts
+dist/
+release/
+
+# Keep build scripts
+build/*
+!build/scripts/
+!build/scripts/**
 logs/command_center.jsonl
 logs/command_center.log
