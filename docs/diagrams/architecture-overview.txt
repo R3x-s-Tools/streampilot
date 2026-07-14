@@ -1,0 +1,9 @@
+User Interface
+    ↓
+Application Services
+    ↓
+Event Bus
+    ↓
+Connectors / Intelligence / Storage
+    ↓
+External Services

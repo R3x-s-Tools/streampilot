@@ -1,31 +1,24 @@
-# Pull Request
-
 ## Summary
 
-Describe your changes.
+Describe the change.
 
-## Type
+## Creator Value
 
-- [ ] Feature
-- [ ] Bug Fix
-- [ ] Refactor
-- [ ] Documentation
-- [ ] Tests
-- [ ] Release
+How does this help creators?
+
+## Related Issue
+
+Closes #
+
+## SPS Impact
+
+- [ ] No SPS impact
+- [ ] SPS docs updated
 
 ## Checklist
 
-- [ ] Tests pass
-- [ ] Ruff passes
-- [ ] Black passes
-- [ ] Docs updated
-- [ ] CHANGELOG updated
-- [ ] Version updated (if needed)
-
-## Screenshots
-
-If applicable.
-
-## Notes
-
-Anything reviewers should know.
+- [ ] Tests added or updated
+- [ ] Documentation updated
+- [ ] Changelog updated if user-facing
+- [ ] No secrets are logged or exposed
+- [ ] Change preserves existing dashboard behavior unless explicitly intended

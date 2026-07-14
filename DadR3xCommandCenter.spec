@@ -2,10 +2,10 @@
 
 from pathlib import Path
 import platform
-
+import certifi
 project_root = Path.cwd()
 
-datas = []
+datas = [(certifi.where(), "certifi"),]
 for optional_file in [".env.example", "README.md", "CHANGELOG.md"]:
     optional_path = project_root / optional_file
     if optional_path.exists():
@@ -26,6 +26,7 @@ hiddenimports = [
     "requests",
     "websocket",
     "dotenv",
+    "certifi",
 ]
 
 a = Analysis(
