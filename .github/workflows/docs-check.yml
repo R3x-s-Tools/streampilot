@@ -1,0 +1,19 @@
+name: Docs Check
+
+on:
+  pull_request:
+    paths:
+      - "**.md"
+      - ".github/**"
+
+jobs:
+  docs-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check required foundation files
+        run: |
+          test -f PROJECT.md
+          test -f README.md
+          test -f docs/SPS/SPS-000-Manifesto.md
+          test -f docs/SPS/SPS-014-Engineering-Principles.md

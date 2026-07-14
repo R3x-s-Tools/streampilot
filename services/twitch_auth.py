@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import secrets
 import threading
 import time
@@ -11,6 +10,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 import requests
+
+from core.secret_store import SecretStore, create_twitch_secret_store
 
 SCOPES = [
     "chat:read",
@@ -42,12 +43,14 @@ class TwitchAuthService:
         client_secret: str,
         redirect_uri: str,
         token_path: str = "data/twitch_tokens.json",
+        secret_store: SecretStore | None = None,
     ):
         self.client_id = client_id.strip()
         self.client_secret = client_secret.strip()
         self.redirect_uri = redirect_uri.strip()
         self.token_path = Path(token_path)
         self.token_path.parent.mkdir(exist_ok=True)
+        self.secret_store = secret_store or create_twitch_secret_store(self.token_path)
         self.status = "Not logged in"
         self.last_error = ""
         self._token: TokenStore | None = None
@@ -57,10 +60,10 @@ class TwitchAuthService:
         return bool(self.client_id and self.client_secret and self.redirect_uri)
 
     def load(self) -> TokenStore | None:
-        if not self.token_path.exists():
+        data = self.secret_store.load()
+        if not data:
             return None
         try:
-            data = json.loads(self.token_path.read_text(encoding="utf-8"))
             self._token = TokenStore(**data)
             self.status = "Token loaded"
             return self._token
@@ -71,7 +74,7 @@ class TwitchAuthService:
 
     def save(self, token: TokenStore) -> None:
         self._token = token
-        self.token_path.write_text(json.dumps(asdict(token), indent=2), encoding="utf-8")
+        self.secret_store.save(asdict(token))
 
     def ensure_access_token(self) -> TokenStore | None:
         if not self._token:

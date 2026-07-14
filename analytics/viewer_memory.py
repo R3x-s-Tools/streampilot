@@ -168,3 +168,11 @@ class ViewerMemory:
                 profile.topics.append(topic)
 
         profile.topics = profile.topics[-20:]
+
+    def get_profile(self, username: str):
+        clean_username = (username or "").strip().lower()
+
+        if not clean_username:
+            return None
+
+        return self.profiles.get(clean_username)

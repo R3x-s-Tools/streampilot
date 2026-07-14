@@ -37,6 +37,7 @@ class EventSubService:
         self.broadcaster_id = ""
         self.user_id = ""
         self.subscribed = []
+        self._seen_message_ids: set[str] = set()
 
     def start(self):
         if self.running:
@@ -129,6 +130,14 @@ class EventSubService:
                 self.session_id = payload["payload"]["session"]["id"]
                 self._subscribe_all()
             elif mt == "notification":
+                msg_id = payload.get("metadata", {}).get("message_id", "")
+                if msg_id and msg_id in self._seen_message_ids:
+                    return
+                if msg_id:
+                    self._seen_message_ids.add(msg_id)
+                    # Keep the dedup set from growing without bound.
+                    if len(self._seen_message_ids) > 500:
+                        self._seen_message_ids.clear()
                 sub_type = payload["payload"]["subscription"]["type"]
                 event = payload["payload"]["event"]
                 self.events.put(self._parse(sub_type, event, payload))

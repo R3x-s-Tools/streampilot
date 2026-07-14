@@ -4,9 +4,6 @@
   ('81d243bd2c585b0f4821__mypyc.cpython-312-darwin.so',
    '/Users/zdoherty/Documents/dadr3x_command_center_pro/.venv/lib/python3.12/site-packages/81d243bd2c585b0f4821__mypyc.cpython-312-darwin.so',
    'EXTENSION'),
-  ('CHANGELOG.md',
-   '/Users/zdoherty/Documents/dadr3x_command_center_pro/CHANGELOG.md',
-   'DATA'),
   ('DadR3x Command Center',
    '/Users/zdoherty/Documents/dadr3x_command_center_pro/.pyinstaller_build/DadR3xCommandCenter/DadR3x '
    'Command Center',
