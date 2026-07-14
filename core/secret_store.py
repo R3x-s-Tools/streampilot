@@ -36,7 +36,7 @@ class FileSecretStore(SecretStore):
         if not self.path.exists():
             return None
         try:
-            self.path.chmod(stat.S_IRUSR | stat.S_IWUSR)
+            self._restrict_path_permissions(self.path)
             return json.loads(self.path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             return None
@@ -51,13 +51,13 @@ class FileSecretStore(SecretStore):
                 suffix=".tmp",
             )
             temporary_path = Path(temporary_name)
-            os.fchmod(descriptor, stat.S_IRUSR | stat.S_IWUSR)
+            self._restrict_descriptor_permissions(descriptor)
             with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
                 handle.write(serialized)
                 handle.flush()
                 os.fsync(handle.fileno())
             temporary_path.replace(self.path)
-            self.path.chmod(stat.S_IRUSR | stat.S_IWUSR)
+            self._restrict_path_permissions(self.path)
         except OSError as exc:
             if temporary_path is not None:
                 temporary_path.unlink(missing_ok=True)
@@ -68,6 +68,16 @@ class FileSecretStore(SecretStore):
             self.path.unlink(missing_ok=True)
         except OSError as exc:
             raise SecretStoreError(f"Could not remove file-backed secret: {exc}") from exc
+
+    @staticmethod
+    def _restrict_descriptor_permissions(descriptor: int) -> None:
+        if os.name != "nt":
+            os.fchmod(descriptor, stat.S_IRUSR | stat.S_IWUSR)
+
+    @staticmethod
+    def _restrict_path_permissions(path: Path) -> None:
+        if os.name != "nt":
+            path.chmod(stat.S_IRUSR | stat.S_IWUSR)
 
 
 class KeyringBackend(Protocol):
