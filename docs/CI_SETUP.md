@@ -1,51 +1,43 @@
-# CI Setup
+# Continuous Integration
 
-This project uses GitHub Actions for the first quality gate.
+Pull requests into `main` or `develop` run required code-quality and platform checks.
 
-## What CI checks
+## Quality gates
 
-- Ruff lint
+- Ruff linting
 - Black formatting
-- Pytest unit tests
-- Coverage report in terminal
+- Full pytest suite with a 45% aggregate coverage floor
+- Import smoke tests
+- Full tests on Ubuntu, macOS, and Windows with Python 3.12
+- Headless Qt runtime dependencies installed on Linux so UI components are tested rather than skipped
+- A guard that rejects `data/twitch_tokens.json` if it is ever tracked
 
-## Local commands
-
-Install dev dependencies:
+Install the development dependencies locally:
 
 ```bash
-pip install -r requirements-dev.txt
+python -m pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-Run everything locally:
+Run the same quality checks used by CI:
 
 ```bash
-ruff check .
-black --check .
-pytest --cov=analytics --cov=ai --cov=core --cov=reports --cov=services --cov-report=term-missing
-```
-
-Auto-format:
-
-```bash
-black .
-ruff check . --fix
+python -m ruff check .
+python -m black --check .
+python -m pytest \
+  --cov=ai --cov=analytics --cov=connectors --cov=core \
+  --cov=reports --cov=services --cov=ui \
+  --cov-report=term-missing --cov-fail-under=45
 ```
 
 ## Branch protection
 
-After the workflow runs once on GitHub, go to:
+After the workflow has run, configure the `main` branch protection rule in GitHub to require:
 
-Settings → Branches → main → Branch protection
+- `Tests / Lint / Format`
+- `Tests (ubuntu-latest)`
+- `Tests (macos-latest)`
+- `Tests (windows-latest)`
+- `docs-check`
 
-Enable:
-
-- Require a pull request before merging
-- Require branches to be up to date before merging
-- Require status checks to pass before merging
-
-Select this required check:
-
-```text
-Tests / Lint / Format
-```
+Also require pull requests and require branches to be current before merging. Limit bypass access to
+repository emergency administrators.

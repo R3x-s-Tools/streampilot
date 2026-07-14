@@ -3,13 +3,13 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from reports.report_summary import parse_deep_analytics_report
 from services.discord_reporter import DiscordReporter
 
-from dotenv import load_dotenv
-from pathlib import Path
-
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+
 
 def find_latest_report(report_dir: Path) -> Path:
     reports = sorted(report_dir.glob("deep_analytics_report_*.md"), key=lambda p: p.stat().st_mtime)

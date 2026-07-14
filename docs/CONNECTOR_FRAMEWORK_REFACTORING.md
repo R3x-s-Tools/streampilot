@@ -14,6 +14,20 @@ To align the OBS integration with the StreamPilot architecture (SPS-003) by impl
 
 ## Architecture Changes
 
+OBS status now also follows the event-driven application path:
+
+```text
+OBSConnector
+    ↓ ConnectorEvent
+EventBus (connector.status / connector.obs.status)
+    ↓
+MissionControlReadModel
+```
+
+The existing `get_snapshot()` polling API remains available during migration. Each
+poll emits the same factual connector event, allowing Mission Control consumers to
+move to the read model without disrupting the current dashboard.
+
 ### Before
 
 ```

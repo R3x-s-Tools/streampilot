@@ -13,3 +13,4 @@ def test_session_controller_bootstraps_services(monkeypatch, tmp_path) -> None:
     assert controller.logger is not None
     assert controller.ai is not None
     assert controller.reporter is not None
+    assert controller.mission_control is not None

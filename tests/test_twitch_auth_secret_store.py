@@ -1,4 +1,5 @@
 import json
+import os
 import stat
 from pathlib import Path
 
@@ -45,6 +46,11 @@ class FakeKeyring:
         self.value = None
 
 
+def assert_private_permissions_where_supported(path: Path) -> None:
+    if os.name != "nt":
+        assert stat.S_IMODE(path.stat().st_mode) == 0o600
+
+
 def test_twitch_auth_uses_injected_secret_store(tmp_path: Path) -> None:
     store = InMemorySecretStore()
     service = TwitchAuthService(
@@ -79,7 +85,7 @@ def test_file_secret_store_round_trip(tmp_path: Path) -> None:
     store.save({"access_token": "abc"})
 
     assert store.load() == {"access_token": "abc"}
-    assert stat.S_IMODE(secret_path.stat().st_mode) == 0o600
+    assert_private_permissions_where_supported(secret_path)
 
 
 def test_file_secret_store_repairs_legacy_permissions_on_load(tmp_path: Path) -> None:
@@ -88,7 +94,7 @@ def test_file_secret_store_repairs_legacy_permissions_on_load(tmp_path: Path) ->
     secret_path.chmod(0o644)
 
     assert FileSecretStore(secret_path).load() == {"access_token": "abc"}
-    assert stat.S_IMODE(secret_path.stat().st_mode) == 0o600
+    assert_private_permissions_where_supported(secret_path)
 
 
 def test_existing_file_tokens_migrate_only_after_verified_keyring_write(
@@ -124,7 +130,7 @@ def test_failed_keyring_migration_preserves_existing_file(tmp_path: Path) -> Non
     with pytest.raises(SecretStoreError):
         store.load()
     assert file_store.load() == payload
-    assert stat.S_IMODE(secret_path.stat().st_mode) == 0o600
+    assert_private_permissions_where_supported(secret_path)
 
 
 def test_file_mode_remains_available_for_development(tmp_path: Path) -> None:

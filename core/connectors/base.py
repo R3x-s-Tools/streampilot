@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
@@ -28,6 +29,33 @@ class ConnectorStatus:
     def __post_init__(self):
         if self.metadata is None:
             self.metadata = {}
+
+
+@dataclass(frozen=True)
+class ConnectorEvent:
+    """A normalized factual event emitted by an external connector."""
+
+    connector: str
+    event_type: str
+    status: ConnectorStatus
+    payload: dict[str, Any]
+    occurred_at: float
+
+    @classmethod
+    def create(
+        cls,
+        connector: str,
+        event_type: str,
+        status: ConnectorStatus,
+        payload: dict[str, Any] | None = None,
+    ) -> ConnectorEvent:
+        return cls(
+            connector=connector,
+            event_type=event_type,
+            status=status,
+            payload=dict(payload or {}),
+            occurred_at=time.time(),
+        )
 
 
 class Connector(ABC):
