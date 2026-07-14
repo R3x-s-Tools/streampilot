@@ -18,7 +18,9 @@ class SessionController:
     ) -> None:
         self.settings = settings or Settings()
         self.event_bus = event_bus or EventBus()
-        self.services = services or ApplicationServices(settings=self.settings, event_bus=self.event_bus)
+        self.services = services or ApplicationServices(
+            settings=self.settings, event_bus=self.event_bus
+        )
 
         self.auth = self.services.auth
         self.obs = self.services.obs

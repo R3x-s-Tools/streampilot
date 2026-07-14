@@ -5,12 +5,12 @@ from typing import Any
 
 from ai.producer_v2 import AiProducerV2
 from analytics.logger import StreamLogger
+from connectors.obs_connector import OBSConnector
 from core.architecture import EventBus, ServiceRegistry
 from core.config import Settings
 from reports.generator import ReportGenerator
 from services.discord_reporter import DiscordReporter
 from services.eventsub_service import EventSubService
-from services.obs_service import ObsService
 from services.twitch_api import TwitchApiService
 from services.twitch_auth import TwitchAuthService
 from services.twitch_chat import TwitchChatService
@@ -29,7 +29,7 @@ class ApplicationServices:
     registry: ServiceRegistry | None = None
 
     auth: TwitchAuthService | None = None
-    obs: ObsService | None = None
+    obs: OBSConnector | None = None
     logger: StreamLogger | None = None
     ai: AiProducerV2 | None = None
     reporter: ReportGenerator | None = None
@@ -47,7 +47,7 @@ class ApplicationServices:
             self.settings.twitch_client_secret,
             self.settings.twitch_redirect_uri,
         )
-        self.obs = ObsService(
+        self.obs = OBSConnector(
             self.settings.obs_host,
             self.settings.obs_port,
             self.settings.obs_password,

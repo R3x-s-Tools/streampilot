@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QFrame, QHBoxLayout, QVBoxLayout, QWidget, QLabel
-
-from ui.components import StatusCard
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 
 class MissionControlPanel(QFrame):
@@ -11,8 +9,7 @@ class MissionControlPanel(QFrame):
     def __init__(self, title: str = "🛰 Mission Control") -> None:
         super().__init__()
         self.setFrameShape(QFrame.StyledPanel)
-        self.setStyleSheet(
-            """
+        self.setStyleSheet("""
             QFrame {
                 border: 1px solid #444;
                 border-radius: 6px;
@@ -21,8 +18,7 @@ class MissionControlPanel(QFrame):
             QLabel {
                 border: none;
             }
-            """
-        )
+            """)
         outer = QVBoxLayout(self)
         outer.setContentsMargins(6, 4, 6, 4)
         outer.setSpacing(2)
@@ -33,9 +29,7 @@ class MissionControlPanel(QFrame):
 
         self.summary_label = QLabel("Ready to connect Twitch, OBS, and the producer workflow.")
         self.summary_label.setWordWrap(True)
-        self.summary_label.setStyleSheet(
-            "font-size: 11px; color: #cfd8e3; padding: 0;"
-        )
+        self.summary_label.setStyleSheet("font-size: 11px; color: #cfd8e3; padding: 0;")
         outer.addWidget(self.summary_label)
 
         self.cards_layout = QHBoxLayout()
@@ -56,8 +50,7 @@ class ProducerConsolePanel(QFrame):
     def __init__(self, title: str = "🎛 Producer Console") -> None:
         super().__init__()
         self.setFrameShape(QFrame.StyledPanel)
-        self.setStyleSheet(
-            """
+        self.setStyleSheet("""
             QFrame {
                 border: 1px solid #444;
                 border-radius: 8px;
@@ -66,8 +59,7 @@ class ProducerConsolePanel(QFrame):
             QLabel {
                 border: none;
             }
-            """
-        )
+            """)
         self.layout = QVBoxLayout(self)
         self.layout.setContentsMargins(8, 8, 8, 8)
         self.layout.setSpacing(4)
@@ -81,8 +73,7 @@ class ProducerConsolePanel(QFrame):
         )
         self.live_status_box.setWordWrap(True)
         self.live_status_box.setAlignment(self.live_status_box.alignment())
-        self.live_status_box.setStyleSheet(
-            """
+        self.live_status_box.setStyleSheet("""
             QLabel {
                 font-size: 16px;
                 padding: 12px;
@@ -90,8 +81,7 @@ class ProducerConsolePanel(QFrame):
                 border-radius: 8px;
                 background-color: #111;
             }
-            """
-        )
+            """)
         self.layout.addWidget(QLabel("Live Status"))
         self.layout.addWidget(self.live_status_box)
 

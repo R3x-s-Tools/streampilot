@@ -1,4 +1,5 @@
 from .architecture import EventBus, ServiceRegistry
+from .connectors import Connector, ConnectorStatus
 from .secret_store import (
     FileSecretStore,
     KeyringSecretStore,
@@ -18,6 +19,8 @@ __all__ = [
     "SecretStoreError",
     "create_twitch_secret_store",
     "SessionController",
+    "Connector",
+    "ConnectorStatus",
 ]
 
 
