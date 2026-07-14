@@ -168,6 +168,7 @@ temp/
 
 data/viewer_memory.json
 data/session_history.json
+data/twitch_tokens.json
 data/cache/
 data/logs/
 
@@ -277,5 +278,3 @@ settings.local.json
 ###############################################################################
 
 !*/.gitkeep
-.env.example
-.gitignore.stream_pilot_recommended

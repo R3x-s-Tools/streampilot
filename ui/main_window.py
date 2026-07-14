@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-import time
 import webbrowser
 from datetime import datetime
 
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
-    QFrame,
-    QGroupBox,
     QHBoxLayout,
     QLabel,
     QMainWindow,
@@ -21,19 +18,10 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from ai.producer_v2 import AiProducerV2
-from analytics.logger import StreamLogger
 from core.architecture import EventBus
 from core.config import Settings
 from core.session_controller import SessionController
-from reports.generator import ReportGenerator
-from services.application_services import ApplicationServices
-from services.eventsub_service import EventSubService
-from connectors.obs_connector import OBSConnector
 from services.obs_service import ObsSnapshot
-from services.twitch_api import TwitchApiService
-from services.twitch_auth import TwitchAuthService
-from services.twitch_chat import TwitchChatService
 from ui.components import LogPanel, SectionLabel, StatusCard
 from ui.panels import MissionControlPanel, ProducerConsolePanel
 from ui.session_presenter import SessionPresenter
@@ -46,6 +34,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Dad_R3x Command Center Pro v0.2 Producer Console")
 
         from PySide6.QtWidgets import QApplication as _QApplication
+
         screen = _QApplication.primaryScreen()
         if screen:
             geo = screen.availableGeometry()
@@ -236,7 +225,9 @@ class MainWindow(QMainWindow):
         webbrowser.open(f"https://www.twitch.tv/{self.settings.twitch_channel}")
 
     def _tick(self):
-        state = self.presenter.tick(self.auth, self.obs, self.chat, self.twitch_api, self.eventsub, self.ai)
+        state = self.presenter.tick(
+            self.auth, self.obs, self.chat, self.twitch_api, self.eventsub, self.ai
+        )
         self._apply_presenter_state(state)
         self._apply_presenter_updates()
 
@@ -275,7 +266,9 @@ class MainWindow(QMainWindow):
         self._append_system("Manual clip marker pressed.")
         self._append_moment("Manual clip marker pressed.")
         if self.logger:
-            self.logger.add_event("manual_clip_marker", 8, "Manual clip marker pressed.", {"scene": "manual"})
+            self.logger.add_event(
+                "manual_clip_marker", 8, "Manual clip marker pressed.", {"scene": "manual"}
+            )
         QMessageBox.information(self, "Clip Moment", "Clip marker logged.")
 
     def _reports(self):
@@ -296,9 +289,15 @@ class MainWindow(QMainWindow):
                         self._append_system("Discord report sent successfully.")
                     except Exception as exc:
                         self._append_system(f"Discord report failed: {exc}")
-                        QMessageBox.warning(self, "Discord Report", f"Report generated, but Discord delivery failed:\n{exc}")
+                        QMessageBox.warning(
+                            self,
+                            "Discord Report",
+                            f"Report generated, but Discord delivery failed:\n{exc}",
+                        )
                 else:
-                    self._append_system("REPORT_TO_DISCORD is enabled, but Discord webhook is not configured.")
+                    self._append_system(
+                        "REPORT_TO_DISCORD is enabled, but Discord webhook is not configured."
+                    )
                     QMessageBox.warning(
                         self,
                         "Discord Report",

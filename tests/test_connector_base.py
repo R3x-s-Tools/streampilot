@@ -1,39 +1,31 @@
-from core.connectors.base import Connector, ConnectorStatus, ConnectionState
+from core.connectors.base import ConnectionState, Connector, ConnectorStatus
 
 
 class MockConnector(Connector):
     """Mock connector for testing the base interface."""
-    
+
     def __init__(self):
         super().__init__(name="MockConnector")
         self._connected = False
         self._should_fail = False
-    
+
     def connect(self) -> bool:
         if self._should_fail:
             self._status = ConnectorStatus(
-                state=ConnectionState.ERROR,
-                connected=False,
-                error="Connection failed"
+                state=ConnectionState.ERROR, connected=False, error="Connection failed"
             )
             return False
         self._connected = True
-        self._status = ConnectorStatus(
-            state=ConnectionState.CONNECTED,
-            connected=True
-        )
+        self._status = ConnectorStatus(state=ConnectionState.CONNECTED, connected=True)
         return True
-    
+
     def disconnect(self) -> None:
         self._connected = False
-        self._status = ConnectorStatus(
-            state=ConnectionState.DISCONNECTED,
-            connected=False
-        )
-    
+        self._status = ConnectorStatus(state=ConnectionState.DISCONNECTED, connected=False)
+
     def is_connected(self) -> bool:
         return self._connected
-    
+
     def get_status(self) -> ConnectorStatus:
         return self._status
 
@@ -70,7 +62,7 @@ def test_connector_disconnect():
     connector = MockConnector()
     connector.connect()
     assert connector.is_connected() is True
-    
+
     connector.disconnect()
     assert connector.is_connected() is False
     status = connector.get_status()
@@ -80,10 +72,10 @@ def test_connector_disconnect():
 def test_connector_health_check():
     connector = MockConnector()
     assert connector.health_check() is False
-    
+
     connector.connect()
     assert connector.health_check() is True
-    
+
     connector.disconnect()
     assert connector.health_check() is False
 
@@ -119,7 +111,7 @@ def test_connector_status_with_values():
         connected=True,
         error="",
         last_error="",
-        metadata={"key": "value"}
+        metadata={"key": "value"},
     )
     assert status.state == ConnectionState.CONNECTED
     assert status.connected is True

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import secrets
 import threading
 import time
@@ -12,7 +11,7 @@ from pathlib import Path
 
 import requests
 
-from core.secret_store import FileSecretStore, SecretStore
+from core.secret_store import SecretStore, create_twitch_secret_store
 
 SCOPES = [
     "chat:read",
@@ -51,7 +50,7 @@ class TwitchAuthService:
         self.redirect_uri = redirect_uri.strip()
         self.token_path = Path(token_path)
         self.token_path.parent.mkdir(exist_ok=True)
-        self.secret_store = secret_store or FileSecretStore(self.token_path)
+        self.secret_store = secret_store or create_twitch_secret_store(self.token_path)
         self.status = "Not logged in"
         self.last_error = ""
         self._token: TokenStore | None = None

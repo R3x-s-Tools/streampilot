@@ -30,10 +30,12 @@ def _str(name: str, default: str) -> str:
 class Settings:
     twitch_client_id: str = field(default_factory=lambda: _str("TWITCH_CLIENT_ID", ""))
     twitch_client_secret: str = field(default_factory=lambda: _str("TWITCH_CLIENT_SECRET", ""))
-    twitch_redirect_uri: str = field(default_factory=lambda: _str(
-        "TWITCH_REDIRECT_URI",
-        "http://localhost:17563/callback",
-    ))
+    twitch_redirect_uri: str = field(
+        default_factory=lambda: _str(
+            "TWITCH_REDIRECT_URI",
+            "http://localhost:17563/callback",
+        )
+    )
     twitch_channel: str = field(default_factory=lambda: _str("TWITCH_CHANNEL", "dad_r3x"))
 
     obs_host: str = field(default_factory=lambda: _str("OBS_HOST", "127.0.0.1"))
@@ -45,6 +47,8 @@ class Settings:
     openai_model: str = field(default_factory=lambda: _str("OPENAI_MODEL", "gpt-4.1-mini"))
 
     obs_poll_seconds: int = field(default_factory=lambda: _int("OBS_POLL_SECONDS", 3))
-    twitch_analytics_seconds: int = field(default_factory=lambda: _int("TWITCH_ANALYTICS_SECONDS", 60))
+    twitch_analytics_seconds: int = field(
+        default_factory=lambda: _int("TWITCH_ANALYTICS_SECONDS", 60)
+    )
     ai_refresh_seconds: int = field(default_factory=lambda: _int("AI_REFRESH_SECONDS", 45))
     report_to_discord: bool = field(default_factory=lambda: _bool("REPORT_TO_DISCORD", False))

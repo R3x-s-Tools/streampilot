@@ -35,7 +35,9 @@ class SessionPresenter:
         self.moment_updates: list[str] = []
         self.ai_timeline_updates: list[str] = []
 
-    def tick(self, auth: Any, obs: Any, chat: Any, twitch_api: Any, eventsub: Any, ai: Any) -> dict[str, Any]:
+    def tick(
+        self, auth: Any, obs: Any, chat: Any, twitch_api: Any, eventsub: Any, ai: Any
+    ) -> dict[str, Any]:
         # Clear all per-tick update lists before every cycle so stale entries never repeat.
         self.chat_updates = []
         self.event_updates = []
@@ -55,12 +57,14 @@ class SessionPresenter:
         validation = auth.validate()
         self.auth_status = validation or {"scopes": []}
         self.auth_display = (
-            f"{auth.status}\nScopes: {' '.join(self.auth_status.get('scopes', []))}" if self.auth_status else auth.status
+            f"{auth.status}\nScopes: {' '.join(self.auth_status.get('scopes', []))}"
+            if self.auth_status
+            else auth.status
         )
 
     def _update_obs(self, obs: Any) -> None:
         # Support both ObsService and OBSConnector for backwards compatibility
-        if hasattr(obs, 'get_snapshot'):
+        if hasattr(obs, "get_snapshot"):
             self.latest_obs = obs.get_snapshot()
         else:
             self.latest_obs = obs.snapshot()
@@ -115,9 +119,13 @@ class SessionPresenter:
                 delta = self.latest_twitch.viewer_count - previous_viewers
                 self.viewer_delta = delta
                 if delta >= 2:
-                    self.viewer_delta_label = f"📈 Viewer spike: +{delta}, now {self.latest_twitch.viewer_count}"
+                    self.viewer_delta_label = (
+                        f"📈 Viewer spike: +{delta}, now {self.latest_twitch.viewer_count}"
+                    )
                 elif delta <= -2:
-                    self.viewer_delta_label = f"📉 Viewer drop: {delta}, now {self.latest_twitch.viewer_count}"
+                    self.viewer_delta_label = (
+                        f"📉 Viewer drop: {delta}, now {self.latest_twitch.viewer_count}"
+                    )
                 else:
                     self.viewer_delta_label = ""
                 if self.viewer_delta_label:
@@ -139,7 +147,10 @@ class SessionPresenter:
         event_dicts = [eventsub.to_dict(event) for event in events]
         self.logger.add_twitch_events(event_dicts)
         self.event_updates = events
-        self.ai_timeline_updates = [f"[{datetime.fromtimestamp(event.timestamp_epoch).strftime('%H:%M:%S')}] Twitch Event\n{event.message}\n" for event in events]
+        self.ai_timeline_updates = [
+            f"[{datetime.fromtimestamp(event.timestamp_epoch).strftime('%H:%M:%S')}] Twitch Event\n{event.message}\n"
+            for event in events
+        ]
 
     def _update_live_status(self) -> None:
         obs_line = "OBS: Disconnected"
@@ -213,7 +224,11 @@ class SessionPresenter:
         self.analytics_text = "\n".join(lines)
         self.summary = summary
         self.ai_notes = self._build_ai_notes(ai)
-        return {"summary": summary, "analytics_text": self.analytics_text, "ai_notes": self.ai_notes}
+        return {
+            "summary": summary,
+            "analytics_text": self.analytics_text,
+            "ai_notes": self.ai_notes,
+        }
 
     def _build_ai_notes(self, ai: Any) -> str:
         if time.time() - self.last_ai_refresh < self.settings.ai_refresh_seconds:

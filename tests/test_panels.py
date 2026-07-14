@@ -7,7 +7,6 @@ from PySide6.QtWidgets import QApplication, QFrame
 from ui.components import LogPanel, StatusCard
 from ui.panels import MissionControlPanel, ProducerConsolePanel
 
-
 APP = QApplication.instance() or QApplication([])
 
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QTextEdit
+from PySide6.QtWidgets import QFrame, QLabel, QTextEdit, QVBoxLayout
 
 
 class StatusCard(QFrame):
@@ -11,8 +11,7 @@ class StatusCard(QFrame):
         super().__init__()
         self.setFrameShape(QFrame.StyledPanel)
         self.setMaximumHeight(60)
-        self.setStyleSheet(
-            """
+        self.setStyleSheet("""
             QFrame {
                 border: 1px solid #444;
                 border-radius: 6px;
@@ -21,8 +20,7 @@ class StatusCard(QFrame):
             QLabel {
                 border: none;
             }
-            """
-        )
+            """)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(6, 4, 6, 4)
         layout.setSpacing(1)
@@ -46,9 +44,7 @@ class LogPanel(QTextEdit):
         self.setReadOnly(True)
         self.setLineWrapMode(QTextEdit.WidgetWidth)
         self.setPlaceholderText(placeholder)
-        self.setStyleSheet(
-            "QTextEdit { font-size: 15px; font-weight: 500; padding: 10px; }"
-        )
+        self.setStyleSheet("QTextEdit { font-size: 15px; font-weight: 500; padding: 10px; }")
 
 
 class SectionLabel(QLabel):

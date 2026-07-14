@@ -8,6 +8,7 @@ from typing import Any
 
 class ConnectionState(Enum):
     """Represents the connection state of a connector."""
+
     DISCONNECTED = "disconnected"
     CONNECTING = "connecting"
     CONNECTED = "connected"
@@ -17,6 +18,7 @@ class ConnectionState(Enum):
 @dataclass
 class ConnectorStatus:
     """Status information for a connector."""
+
     state: ConnectionState = ConnectionState.DISCONNECTED
     connected: bool = False
     error: str = ""

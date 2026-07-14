@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import time
-from typing import Any
 
-from core.connectors.base import Connector, ConnectorStatus, ConnectionState
+from core.connectors.base import ConnectionState, Connector, ConnectorStatus
 from services.obs_service import ObsService, ObsSnapshot
 
 
@@ -26,10 +25,10 @@ class OBSConnector(Connector):
         self.host = host
         self.port = port
         self.password = password
-        
+
         # Wrap the existing ObsService for backwards compatibility
         self._obs_service = ObsService(host, port, password)
-        
+
         # Track connection state
         self._connection_attempts = 0
         self._last_successful_connection = 0.0
@@ -39,10 +38,10 @@ class OBSConnector(Connector):
         try:
             self._connection_attempts += 1
             self._obs_service.connect()
-            
+
             # Verify connection by taking a snapshot
             snapshot = self._obs_service.snapshot()
-            
+
             if snapshot.connected:
                 self._status = ConnectorStatus(
                     state=ConnectionState.CONNECTED,
@@ -51,7 +50,7 @@ class OBSConnector(Connector):
                         "host": self.host,
                         "port": self.port,
                         "connection_attempts": self._connection_attempts,
-                    }
+                    },
                 )
                 self._last_successful_connection = time.time()
                 return True
@@ -61,17 +60,17 @@ class OBSConnector(Connector):
                     connected=False,
                     error=snapshot.error,
                     last_error=snapshot.error,
-                    metadata={"host": self.host, "port": self.port}
+                    metadata={"host": self.host, "port": self.port},
                 )
                 return False
-                
+
         except Exception as exc:
             self._status = ConnectorStatus(
                 state=ConnectionState.ERROR,
                 connected=False,
                 error=str(exc),
                 last_error=str(exc),
-                metadata={"host": self.host, "port": self.port}
+                metadata={"host": self.host, "port": self.port},
             )
             return False
 
@@ -81,7 +80,7 @@ class OBSConnector(Connector):
         self._status = ConnectorStatus(
             state=ConnectionState.DISCONNECTED,
             connected=False,
-            metadata={"host": self.host, "port": self.port}
+            metadata={"host": self.host, "port": self.port},
         )
 
     def is_connected(self) -> bool:
@@ -91,14 +90,14 @@ class OBSConnector(Connector):
     def get_status(self) -> ConnectorStatus:
         """Get current connector status."""
         snapshot = self._obs_service.snapshot()
-        
+
         if snapshot.connected:
             state = ConnectionState.CONNECTED
         elif snapshot.error and "Retrying in" in snapshot.error:
             state = ConnectionState.CONNECTING
         else:
             state = ConnectionState.ERROR
-            
+
         self._status = ConnectorStatus(
             state=state,
             connected=snapshot.connected,
@@ -115,15 +114,15 @@ class OBSConnector(Connector):
                 "memory_usage_mb": snapshot.memory_usage_mb,
                 "connection_attempts": self._connection_attempts,
                 "last_successful_connection": self._last_successful_connection,
-            }
+            },
         )
-        
+
         return self._status
 
     def get_snapshot(self) -> ObsSnapshot:
         """
         Get the current OBS snapshot.
-        
+
         This method provides direct access to the ObsSnapshot for backwards
         compatibility with existing code that depends on ObsService.
         """
@@ -138,7 +137,7 @@ class OBSConnector(Connector):
     def obs_service(self) -> ObsService:
         """
         Provide access to the underlying ObsService for backwards compatibility.
-        
+
         This property allows existing code to continue using the ObsService
         interface while we migrate to the Connector framework.
         """

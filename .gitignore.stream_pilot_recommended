@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# Runtime data
+stream_logs/
+stream_reports/
+logs/
+data/twitch_tokens.json
+
+# Builds
+dist/
+build/
+release/
+.pyinstaller_build/
+
+# OS
+.DS_Store
+
+# Secrets
+*.key
+*.pem
+*.token

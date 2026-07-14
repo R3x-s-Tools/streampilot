@@ -34,3 +34,10 @@ StreamPilot should never log:
 - Webhook URLs
 - Authentication headers
 - Session cookies
+
+## Local Credential Storage
+
+Twitch OAuth tokens use the operating system credential manager by default. Existing
+`data/twitch_tokens.json` credentials are migrated only after the OS-backed value is
+written and verified. Set `STREAMPILOT_SECRET_STORE=file` only for local development;
+the fallback file is written atomically with user-only permissions.
