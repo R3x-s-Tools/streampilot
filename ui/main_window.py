@@ -13,6 +13,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QPushButton,
+    QSizePolicy,
     QSplitter,
     QTabWidget,
     QTextEdit,
@@ -22,13 +23,20 @@ from PySide6.QtWidgets import (
 
 from ai.producer_v2 import AiProducerV2
 from analytics.logger import StreamLogger
+from core.architecture import EventBus
 from core.config import Settings
+from core.session_controller import SessionController
 from reports.generator import ReportGenerator
+from services.application_services import ApplicationServices
 from services.eventsub_service import EventSubService
-from services.obs_service import ObsService, ObsSnapshot
+from connectors.obs_connector import OBSConnector
+from services.obs_service import ObsSnapshot
 from services.twitch_api import TwitchApiService
 from services.twitch_auth import TwitchAuthService
 from services.twitch_chat import TwitchChatService
+from ui.components import LogPanel, SectionLabel, StatusCard
+from ui.panels import MissionControlPanel, ProducerConsolePanel
+from ui.session_presenter import SessionPresenter
 
 
 class MainWindow(QMainWindow):
@@ -36,33 +44,35 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.settings = Settings()
         self.setWindowTitle("Dad_R3x Command Center Pro v0.2 Producer Console")
-        self.resize(1500, 950)
 
-        self.auth = TwitchAuthService(
-            self.settings.twitch_client_id,
-            self.settings.twitch_client_secret,
-            self.settings.twitch_redirect_uri,
-        )
-        self.obs = ObsService(
-            self.settings.obs_host,
-            self.settings.obs_port,
-            self.settings.obs_password,
-        )
-        self.logger = StreamLogger()
-        self.ai = AiProducerV2(
-            self.settings.ai_provider,
-            self.settings.openai_api_key,
-            self.settings.openai_model,
-        )
-        self.reporter = ReportGenerator(
-            self.settings.ai_provider,
-            self.settings.openai_api_key,
-            self.settings.openai_model,
-        )
+        from PySide6.QtWidgets import QApplication as _QApplication
+        screen = _QApplication.primaryScreen()
+        if screen:
+            geo = screen.availableGeometry()
+            self.resize(int(geo.width() * 0.92), int(geo.height() * 0.92))
+            self.move(
+                geo.x() + (geo.width() - self.width()) // 2,
+                geo.y() + (geo.height() - self.height()) // 2,
+            )
+        else:
+            self.resize(1500, 950)
 
-        self.chat = None
-        self.twitch_api = None
-        self.eventsub = None
+        self.event_bus = EventBus()
+        self.controller = SessionController(settings=self.settings, event_bus=self.event_bus)
+        self.services = self.controller.services
+        self.settings = self.controller.settings
+        self.auth = self.controller.auth
+        self.obs = self.controller.obs
+        self.logger = self.controller.logger
+        self.ai = self.controller.ai
+        self.reporter = self.controller.reporter
+
+        self.chat = self.controller.chat
+        self.twitch_api = self.controller.twitch_api
+        self.eventsub = self.controller.eventsub
+        self.registry = self.controller.registry
+        self.discord_reporter = self.controller.discord_reporter
+        self.presenter = SessionPresenter(self.settings, self.logger)
 
         self.latest_obs = ObsSnapshot()
         self.latest_twitch = None
@@ -84,27 +94,32 @@ class MainWindow(QMainWindow):
     def _build_ui(self):
         root = QWidget()
         root_layout = QVBoxLayout(root)
+        root_layout.setContentsMargins(6, 6, 6, 6)
+        root_layout.setSpacing(4)
         self.setCentralWidget(root)
 
         header = QHBoxLayout()
+        header.setContentsMargins(0, 0, 0, 0)
         title = QLabel("🦖 Dad_R3x Command Center Pro v0.2")
-        title.setStyleSheet("font-size: 24px; font-weight: bold;")
+        title.setStyleSheet("font-size: 18px; font-weight: bold;")
         header.addWidget(title)
         header.addStretch()
         root_layout.addLayout(header)
 
-        status_row = QHBoxLayout()
+        self.status_panel = MissionControlPanel()
         self.auth_card = self._status_card("Twitch Auth", "Checking...")
         self.obs_card = self._status_card("OBS", "Waiting...")
         self.twitch_card = self._status_card("Twitch", "Not started")
         self.ai_card = self._status_card("AI Producer", "Waiting...")
 
         for card in [self.auth_card, self.obs_card, self.twitch_card, self.ai_card]:
-            status_row.addWidget(card["box"])
+            self.status_panel.add_status_card(card["box"])
 
-        root_layout.addLayout(status_row)
+        self.status_panel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
+        root_layout.addWidget(self.status_panel)
 
         controls = QHBoxLayout()
+        controls.setContentsMargins(0, 0, 0, 0)
         for label, handler in [
             ("Login with Twitch", self._login),
             ("Refresh Token", self._refresh_token),
@@ -124,47 +139,22 @@ class MainWindow(QMainWindow):
         root_layout.addWidget(main_splitter, stretch=1)
 
         # Left side: signal-first producer console.
-        console_panel = QGroupBox("🎛 Producer Console")
-        console_layout = QVBoxLayout(console_panel)
+        console_panel = ProducerConsolePanel()
+        console_layout = console_panel.layout
 
-        self.live_status_box = QLabel(
-            "Not live yet. Start Twitch services to populate stream status."
-        )
-        self.live_status_box.setWordWrap(True)
-        self.live_status_box.setAlignment(Qt.AlignTop)
-        self.live_status_box.setStyleSheet("""
-            QLabel {
-                font-size: 16px;
-                padding: 12px;
-                border: 1px solid #444;
-                border-radius: 8px;
-                background-color: #111;
-            }
-            """)
-        console_layout.addWidget(QLabel("Live Status"))
-        console_layout.addWidget(self.live_status_box)
-
-        console_layout.addWidget(QLabel("What to do next"))
-        self.action_box = QTextEdit()
-        self.action_box.setReadOnly(True)
-        self.action_box.setPlaceholderText("AI Producer suggestions will appear here.")
-        self.action_box.setStyleSheet(
-            "QTextEdit { font-size: 15px; font-weight: 500; padding: 10px; }"
-        )
+        self.live_status_box = console_panel.live_status_box
+        console_layout.addWidget(SectionLabel("What to do next"))
+        self.action_box = LogPanel("AI Producer suggestions will appear here.")
         console_layout.addWidget(self.action_box, stretch=2)
 
-        console_layout.addWidget(QLabel("High-signal moments"))
-        self.moments_box = QTextEdit()
-        self.moments_box.setReadOnly(True)
-        self.moments_box.setPlaceholderText(
+        console_layout.addWidget(SectionLabel("High-signal moments"))
+        self.moments_box = LogPanel(
             "Follows, spikes, chat bursts, and clip markers will appear here."
         )
         console_layout.addWidget(self.moments_box, stretch=2)
 
-        console_layout.addWidget(QLabel("AI timeline"))
-        self.ai_timeline_box = QTextEdit()
-        self.ai_timeline_box.setReadOnly(True)
-        self.ai_timeline_box.setPlaceholderText("AI timeline entries will appear here.")
+        console_layout.addWidget(SectionLabel("AI timeline"))
+        self.ai_timeline_box = LogPanel("AI timeline entries will appear here.")
         console_layout.addWidget(self.ai_timeline_box, stretch=3)
 
         main_splitter.addWidget(console_panel)
@@ -181,40 +171,23 @@ class MainWindow(QMainWindow):
         main_splitter.setSizes([620, 880])
 
         self.footer = QLabel(f"Session log: {self.logger.session_file}")
+        self.footer.setMaximumHeight(20)
+        self.footer.setStyleSheet("font-size: 11px; color: #888;")
         root_layout.addWidget(self.footer)
 
     def _status_card(self, title: str, value: str) -> dict:
-        box = QFrame()
-        box.setFrameShape(QFrame.StyledPanel)
-        box.setStyleSheet("""
-            QFrame {
-                border: 1px solid #444;
-                border-radius: 8px;
-                padding: 8px;
-            }
-            QLabel {
-                border: none;
-            }
-            """)
-        layout = QVBoxLayout(box)
-        title_label = QLabel(title)
-        title_label.setStyleSheet("font-weight: bold; font-size: 13px;")
-        value_label = QLabel(value)
-        value_label.setWordWrap(True)
-        layout.addWidget(title_label)
-        layout.addWidget(value_label)
-        return {"box": box, "value": value_label}
+        box = StatusCard(title, value)
+        return {"box": box, "value": box.value_label}
 
     def _tab_text(self, title: str) -> QTextEdit:
-        box = QTextEdit()
-        box.setReadOnly(True)
-        box.setLineWrapMode(QTextEdit.WidgetWidth)
+        box = LogPanel()
         self.tabs.addTab(box, title)
         return box
 
     def _append_system(self, message: str):
         stamp = datetime.now().strftime("%H:%M:%S")
         self.system_log_box.append(f"[{stamp}] {message}")
+        self.event_bus.publish("ui.system_message", message)
 
     def _append_moment(self, message: str):
         stamp = datetime.now().strftime("%H:%M:%S")
@@ -245,27 +218,13 @@ class MainWindow(QMainWindow):
         self._update_auth_status()
 
     def _start_twitch_services(self):
-        token = self.auth.ensure_access_token()
-
-        if not token:
+        if not self.controller.start_twitch_runtime():
             QMessageBox.warning(self, "Twitch", "Login with Twitch first.")
             return
 
-        self.chat = TwitchChatService(
-            self.settings.twitch_channel,
-            self.settings.twitch_channel,
-            self.auth.oauth_token,
-        )
-        self.twitch_api = TwitchApiService(
-            self.settings.twitch_client_id,
-            self.settings.twitch_channel,
-            self.auth.access_token,
-        )
-        self.eventsub = EventSubService(
-            self.settings.twitch_client_id,
-            self.settings.twitch_channel,
-            self.auth.access_token,
-        )
+        self.chat = self.controller.chat
+        self.twitch_api = self.controller.twitch_api
+        self.eventsub = self.controller.eventsub
 
         self.chat.start()
         self.eventsub.start()
@@ -277,268 +236,82 @@ class MainWindow(QMainWindow):
         webbrowser.open(f"https://www.twitch.tv/{self.settings.twitch_channel}")
 
     def _tick(self):
-        self._update_auth_status()
-        self._update_obs()
-        self._update_chat()
-        self._update_twitch_api()
-        self._update_eventsub()
-        self._update_live_status()
-        self._update_analytics_tab()
-        self._auto_ai_notes()
+        state = self.presenter.tick(self.auth, self.obs, self.chat, self.twitch_api, self.eventsub, self.ai)
+        self._apply_presenter_state(state)
+        self._apply_presenter_updates()
 
-    def _update_auth_status(self):
-        self.auth.ensure_access_token()
-        validation = self.auth.validate()
+    def _apply_presenter_state(self, state: dict):
+        self.summary = state.get("summary", {})
+        self.analytics_text = state.get("analytics_text", "")
+        self.ai_notes = state.get("ai_notes", "")
+        self.auth_card["value"].setText(self.presenter.auth_display)
+        self.obs_card["value"].setText(self.presenter.obs_display)
+        self.twitch_card["value"].setText(self.presenter.twitch_display)
+        self.live_status_box.setText(self.presenter.live_status)
+        self.status_panel.set_summary(self.presenter.live_status or "Waiting for updates.")
+        self.analytics_box.setPlainText(self.presenter.analytics_text)
+        self.action_box.setPlainText(self.presenter.ai_notes)
+        self.raw_ai_box.setPlainText(self.presenter.ai_notes)
+        self.ai_card["value"].setText(f"Updated {datetime.now().strftime('%H:%M:%S')}")
 
-        if validation:
-            scopes = " ".join(validation.get("scopes", []))
-            self.auth_card["value"].setText(f"{self.auth.status}\nScopes: {scopes}")
-        else:
-            self.auth_card["value"].setText(self.auth.status)
-
-    def _update_obs(self):
-        self.latest_obs = self.obs.snapshot()
-
-        if self.latest_obs.connected:
-            live = "LIVE" if self.latest_obs.streaming else "Not streaming"
-            self.obs_card["value"].setText(
-                f"{live}\nScene: {self.latest_obs.current_scene}\n"
-                f"FPS: {self._fmt(self.latest_obs.fps)} | CPU: {self._fmt(self.latest_obs.cpu_usage)}%"
-            )
-        else:
-            self.obs_card["value"].setText(f"Disconnected\n{self.latest_obs.error}")
-
-        self.logger.add_obs(self.latest_obs)
-
-    def _update_chat(self):
-        if not self.chat:
-            return
-
-        messages = self.chat.drain()
-
-        if not messages:
-            return
-
-        self.recent_chat.extend(messages)
-        self.recent_chat = self.recent_chat[-50:]
-        self.logger.add_chat(messages)
-
-        for message in messages:
+    def _apply_presenter_updates(self):
+        for message in self.presenter.chat_updates:
             stamp = datetime.fromtimestamp(message.timestamp).strftime("%H:%M:%S")
             self.chat_box.append(f"[{stamp}] {message.username}: {message.message}")
 
-            profile = self.logger.viewer_memory.get_profile(message.username)
-            if profile and profile.total_messages == 1:
-                self._append_moment(f"🌱 First-time chatter: {message.username}")
-            elif profile and profile.is_regular and profile.total_messages in {25, 50, 100}:
-                self._append_moment(
-                    f"⭐ Regular viewer milestone: {message.username} has {profile.total_messages} messages"
-                )
+        for message in self.presenter.moment_updates:
+            self._append_moment(message)
 
-    def _update_twitch_api(self):
-        if not self.twitch_api:
-            return
-
-        if time.time() - self.last_twitch_poll < self.settings.twitch_analytics_seconds:
-            return
-
-        self.last_twitch_poll = time.time()
-        previous_viewers = None
-        if self.latest_twitch:
-            previous_viewers = self.latest_twitch.viewer_count
-
-        self.latest_twitch = self.twitch_api.snapshot(self.logger.stream_time())
-        self.logger.add_twitch_snapshot(self.twitch_api.to_dict(self.latest_twitch))
-
-        if self.latest_twitch.connected:
-            self.twitch_card["value"].setText(
-                f"{'LIVE' if self.latest_twitch.live else 'Offline'}\n"
-                f"Viewers: {self.latest_twitch.viewer_count}\n"
-                f"Game: {self.latest_twitch.game_name or '?'}\n"
-                f"Followers: {self.latest_twitch.follower_total if self.latest_twitch.follower_total is not None else '?'}"
-            )
-
-            if previous_viewers is not None:
-                delta = self.latest_twitch.viewer_count - previous_viewers
-                if delta >= 2:
-                    self._append_moment(
-                        f"📈 Viewer spike: +{delta}, now {self.latest_twitch.viewer_count}"
-                    )
-                elif delta <= -2:
-                    self._append_moment(
-                        f"📉 Viewer drop: {delta}, now {self.latest_twitch.viewer_count}"
-                    )
-        else:
-            self.twitch_card["value"].setText(f"API Error\n{self.latest_twitch.error}")
-
-    def _update_eventsub(self):
-        if not self.eventsub:
-            return
-
-        events = self.eventsub.drain()
-
-        if not events:
-            return
-
-        event_dicts = [self.eventsub.to_dict(event) for event in events]
-        self.logger.add_twitch_events(event_dicts)
-
-        for event in events:
+        for event in self.presenter.event_updates:
             stamp = datetime.fromtimestamp(event.timestamp_epoch).strftime("%H:%M:%S")
             line = f"[{stamp}] {event.message}"
             self.events_box.append(line)
             self.moments_box.append(line)
-            self.ai_timeline_box.append(f"[{stamp}] Twitch Event\n{event.message}\n")
 
-    def _update_live_status(self):
-        obs_line = "OBS: Disconnected"
-        if self.latest_obs.connected:
-            obs_line = (
-                f"OBS: {'LIVE' if self.latest_obs.streaming else 'Not streaming'} | "
-                f"Scene: {self.latest_obs.current_scene} | FPS: {self._fmt(self.latest_obs.fps)}"
-            )
-
-        twitch_line = "Twitch: Not started"
-        if self.latest_twitch:
-            twitch_line = (
-                f"Twitch: {'LIVE' if self.latest_twitch.live else 'Offline'} | "
-                f"Viewers: {self.latest_twitch.viewer_count} | "
-                f"Game: {self.latest_twitch.game_name or '?'}"
-            )
-
-        summary = self.logger.summary()
-        viewers = summary.get("viewer_summary", {})
-        top_viewers = summary.get("top_viewers", [])
-        top_viewer_line = "Top viewer: none yet"
-        if top_viewers:
-            top = top_viewers[0]
-            top_viewer_line = (
-                f"Top viewer: {top.get('username')} | "
-                f"Score: {top.get('engagement_score')} | "
-                f"Messages: {top.get('total_messages')}"
-            )
-
-        self.live_status_box.setText(
-            f"{obs_line}\n"
-            f"{twitch_line}\n"
-            f"Avg viewers: {viewers.get('average_viewers', 0)} | "
-            f"Peak: {viewers.get('peak_viewers', 0)}\n"
-            f"Human chat: {summary.get('total_chat_messages', 0)} | "
-            f"Unique chatters: {summary.get('unique_chatters', 0)} | "
-            f"Bot filtered: {summary.get('bot_chat_messages', 0)}\n"
-            f"{top_viewer_line}"
-        )
-
-    def _update_analytics_tab(self):
-        summary = self.logger.summary()
-        viewers = summary.get("viewer_summary", {})
-        score = summary.get("stream_score", {})
-        top_viewers = summary.get("top_viewers", [])
-
-        lines = [
-            "Stream Score",
-            f"Overall: {score.get('overall', '?')}/100",
-            f"Viewer retention: {score.get('viewer_retention', '?')}/100",
-            f"Chat engagement: {score.get('chat_engagement', '?')}/100",
-            f"Clip potential: {score.get('clip_potential', '?')}/100",
-            "",
-            "Viewers",
-            f"Average: {viewers.get('average_viewers', 0)}",
-            f"Peak: {viewers.get('peak_viewers', 0)}",
-            f"Low: {viewers.get('low_viewers', 0)}",
-            f"Samples: {viewers.get('samples', 0)}",
-            "",
-            "Engagement",
-            f"Human chat messages: {summary.get('total_chat_messages', 0)}",
-            f"Unique chatters: {summary.get('unique_chatters', 0)}",
-            f"Bot/system filtered: {summary.get('bot_chat_messages', 0)}",
-            "",
-            "Top Viewers",
-        ]
-
-        if top_viewers:
-            for viewer in top_viewers[:8]:
-                lines.append(
-                    f"- {viewer.get('username')} | score {viewer.get('engagement_score')} | "
-                    f"messages {viewer.get('total_messages')} | regular {viewer.get('is_regular')}"
-                )
-        else:
-            lines.append("- none yet")
-
-        self.analytics_box.setPlainText("\n".join(lines))
-
-    def _auto_ai_notes(self):
-        if time.time() - self.last_ai_refresh < self.settings.ai_refresh_seconds:
-            return
-
-        self.last_ai_refresh = time.time()
-        self._ai_notes(auto=True)
-
-    def _ai_notes(self, auto: bool = False):
-        recent_events = self.logger.twitch_events[-10:]
-        recent_highlights = [
-            {
-                "stream_time": event.stream_time,
-                "event_type": event.event_type,
-                "score": event.score,
-                "reason": event.reason,
-            }
-            for event in self.logger.events[-10:]
-        ]
-
-        notes = self.ai.suggest(
-            self.latest_obs,
-            self.recent_chat,
-            self.latest_twitch,
-            recent_events=recent_events,
-            recent_highlights=recent_highlights,
-            chat_history=self.logger.chat_history,
-            viewer_memory=self.logger.viewer_memory,
-        )
-
-        self.action_box.setPlainText(notes)
-        self.raw_ai_box.setPlainText(notes)
-        self.ai_card["value"].setText(f"Updated {datetime.now().strftime('%H:%M:%S')}")
-
-        if self._should_post_ai_timeline(notes, auto=auto):
-            self._append_ai_timeline(notes)
-            self.last_ai_notes_text = notes.strip()
-            self.last_ai_timeline_post = time.time()
-
-    def _should_post_ai_timeline(self, notes: str, auto: bool = False) -> bool:
-        clean_notes = notes.strip()
-
-        if not clean_notes:
-            return False
-
-        if not auto:
-            return True
-
-        if clean_notes != self.last_ai_notes_text:
-            return True
-
-        if time.time() - self.last_ai_timeline_post >= self.ai_force_repeat_seconds:
-            return True
-
-        return False
+        for note in self.presenter.ai_timeline_updates:
+            self.ai_timeline_box.append(note)
 
     def _manual_clip(self):
-        event = self.logger.manual_clip(self.latest_obs.current_scene)
-        line = f"[{event.stream_time}] 🎬 Manual clip marker: {self.latest_obs.current_scene}"
-        self.events_box.append(line)
-        self.moments_box.append(line)
-        self.ai_timeline_box.append(f"{line}\n")
+        self._append_system("Manual clip marker pressed.")
+        self._append_moment("Manual clip marker pressed.")
+        if self.logger:
+            self.logger.add_event("manual_clip_marker", 8, "Manual clip marker pressed.", {"scene": "manual"})
+        QMessageBox.information(self, "Clip Moment", "Clip marker logged.")
 
     def _reports(self):
-        highlight_path, analytics_path = self.reporter.generate(self.logger.summary())
-        QMessageBox.information(
-            self,
-            "Reports generated",
-            f"Highlight report:\n{highlight_path}\n\nDeep analytics report:\n{analytics_path}",
-        )
+        self._append_system("Generating reports...")
+        try:
+            payload = self.logger.summary() if self.logger else {}
+            highlight, analytics = self.reporter.generate(payload)
+            self._append_system(f"Reports generated: {highlight} and {analytics}")
 
-    @staticmethod
-    def _fmt(value):
-        if value is None:
-            return "?"
-        return f"{value:.2f}" if isinstance(value, float) else str(value)
+            if self.settings.report_to_discord:
+                if self.discord_reporter and self.discord_reporter.enabled:
+                    try:
+                        self.discord_reporter.send_markdown_report(
+                            report_path=analytics,
+                            summary=payload,
+                            attach_report=True,
+                        )
+                        self._append_system("Discord report sent successfully.")
+                    except Exception as exc:
+                        self._append_system(f"Discord report failed: {exc}")
+                        QMessageBox.warning(self, "Discord Report", f"Report generated, but Discord delivery failed:\n{exc}")
+                else:
+                    self._append_system("REPORT_TO_DISCORD is enabled, but Discord webhook is not configured.")
+                    QMessageBox.warning(
+                        self,
+                        "Discord Report",
+                        "Report generated, but Discord webhook is not configured. Set DISCORD_REPORT_WEBHOOK_URL in your .env.",
+                    )
+
+            QMessageBox.information(self, "Reports", f"Reports saved:\n{highlight}\n{analytics}")
+        except Exception as exc:  # pragma: no cover - UI fallback path
+            self._append_system(f"Report generation failed: {exc}")
+            QMessageBox.critical(self, "Reports", f"Report generation failed: {exc}")
+
+    def _update_auth_status(self):
+        if self.auth and self.auth.oauth_token:
+            self.auth_card["value"].setText("Connected")
+        else:
+            self.auth_card["value"].setText("Not connected")
