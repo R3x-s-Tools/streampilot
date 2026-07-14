@@ -9,6 +9,7 @@ Pull requests into `main` or `develop` run required code-quality and platform ch
 - Full pytest suite with a 45% aggregate coverage floor
 - Import smoke tests
 - Full tests on Ubuntu, macOS, and Windows with Python 3.12
+- Headless Qt runtime dependencies installed on Linux so UI components are tested rather than skipped
 - A guard that rejects `data/twitch_tokens.json` if it is ever tracked
 
 Install the development dependencies locally:
