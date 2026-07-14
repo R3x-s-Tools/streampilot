@@ -19,3 +19,13 @@ def test_viewer_memory_ignores_bots(tmp_path):
     result = memory.observe_chat("stream_pops", "Automated message", 1000)
 
     assert result["ignored"] is True
+
+
+def test_viewer_memory_get_profile_returns_profile(tmp_path):
+    memory = ViewerMemory(path=str(tmp_path / "viewer_memory.json"))
+    memory.observe_chat("Fythern", "Hello world", 1000)
+
+    profile = memory.get_profile("Fythern")
+
+    assert profile is not None
+    assert profile.username == "fythern"

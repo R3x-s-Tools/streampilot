@@ -1,0 +1,25 @@
+name: Feature Request
+description: Suggest an improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Creator problem
+      description: What creator problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Foundation alignment
+      options:
+        - label: Helps creators make better decisions
+        - label: Keeps AI optional
+        - label: Respects local ownership
+        - label: Preserves security by design
