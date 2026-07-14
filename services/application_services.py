@@ -8,6 +8,8 @@ from analytics.logger import StreamLogger
 from connectors.obs_connector import OBSConnector
 from core.architecture import EventBus, ServiceRegistry
 from core.config import Settings
+from core.connectors import ConnectorEvent
+from core.mission_control import MissionControlReadModel
 from reports.generator import ReportGenerator
 from services.discord_reporter import DiscordReporter
 from services.eventsub_service import EventSubService
@@ -37,10 +39,12 @@ class ApplicationServices:
     chat: TwitchChatService | None = None
     twitch_api: TwitchApiService | None = None
     eventsub: EventSubService | None = None
+    mission_control: MissionControlReadModel | None = None
 
     def __post_init__(self) -> None:
         self.event_bus = self.event_bus or EventBus()
         self.registry = self.registry or ServiceRegistry()
+        self.mission_control = MissionControlReadModel(self.event_bus)
 
         self.auth = TwitchAuthService(
             self.settings.twitch_client_id,
@@ -51,6 +55,7 @@ class ApplicationServices:
             self.settings.obs_host,
             self.settings.obs_port,
             self.settings.obs_password,
+            event_sink=self._publish_connector_event,
         )
         self.logger = StreamLogger()
         self.ai = AiProducerV2(
@@ -74,10 +79,28 @@ class ApplicationServices:
                 "logger": self.logger,
                 "ai": self.ai,
                 "reporter": self.reporter,
+                "mission_control": self.mission_control,
             }
         )
 
         self.event_bus.publish("application.services_ready", {"settings": self.settings})
+
+    def _publish_connector_event(self, event: ConnectorEvent) -> None:
+        self.event_bus.publish("connector.status", event)
+        self.event_bus.publish(f"connector.{event.connector}.status", event)
+
+    def start_obs_runtime(self) -> bool:
+        """Start OBS through the application lifecycle boundary."""
+        return bool(self.obs and self.obs.connect())
+
+    def refresh_obs(self):
+        """Poll OBS while emitting normalized connector state for consumers."""
+        return self.obs.get_snapshot() if self.obs else None
+
+    def stop_obs_runtime(self) -> None:
+        """Stop OBS through the application lifecycle boundary."""
+        if self.obs:
+            self.obs.disconnect()
 
     def start_twitch_runtime(self) -> bool:
         """Create the Twitch runtime services lazily when the user enables them."""

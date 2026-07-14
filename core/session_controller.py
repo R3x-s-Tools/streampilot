@@ -29,6 +29,7 @@ class SessionController:
         self.reporter = self.services.reporter
         self.discord_reporter = self.services.discord_reporter
         self.registry = self.services.registry
+        self.mission_control = self.services.mission_control
 
         self.chat = None
         self.twitch_api = None
@@ -41,6 +42,15 @@ class SessionController:
             self.twitch_api = self.services.twitch_api
             self.eventsub = self.services.eventsub
         return started
+
+    def start_obs_runtime(self) -> bool:
+        return self.services.start_obs_runtime()
+
+    def refresh_obs(self):
+        return self.services.refresh_obs()
+
+    def stop_obs_runtime(self) -> None:
+        self.services.stop_obs_runtime()
 
     def get_service(self, name: str, default: Any = None) -> Any:
         return self.services.get(name, default)
