@@ -33,7 +33,7 @@ python -m pytest \
 
 After the workflow has run, configure the `main` branch protection rule in GitHub to require:
 
-- `Quality and coverage`
+- `Tests / Lint / Format`
 - `Tests (ubuntu-latest)`
 - `Tests (macos-latest)`
 - `Tests (windows-latest)`

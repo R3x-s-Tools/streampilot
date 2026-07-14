@@ -20,7 +20,7 @@ env:
 
 jobs:
   quality:
-    name: Quality and coverage
+    name: Tests / Lint / Format
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
