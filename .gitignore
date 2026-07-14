@@ -279,4 +279,3 @@ settings.local.json
 !*/.gitkeep
 .env.example
 .gitignore.stream_pilot_recommended
-.env.example
