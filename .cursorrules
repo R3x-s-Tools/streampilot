@@ -1,0 +1,11 @@
+Read AGENTS.md and ai/AI_CONTEXT.md before editing.
+
+Creator first.
+Local first.
+AI optional.
+Security by design.
+Preserve working dashboard behavior.
+Prefer incremental refactoring.
+Never expose secrets.
+Reports remain factual.
+Producer interprets.
